@@ -1,0 +1,22 @@
+*.sln
+*.v11
+*.unityproj
+*.pidb
+*.csproj
+*#*
+Library/*
+packages/*
+Assembly-*
+*.userprefs
+Temp/*
+.DS_Store
+*.apk
+*.ipa
+#Fast Platform Switch
+/LocalCache/
+/Library/
+/obj/
+/Temp/
+*.suo
+build/*
+/.vs/
