@@ -19,7 +19,9 @@ public class AT_Controller : MonoBehaviour {
 	public int accuracy_mode = 4;//Bassically it is used by the bullet, and add a force in direction to the target.
 	public int Damage_ = 1;
 	public bool fire = false;
-	
+
+    private Animator _animator;
+
 	void OnMouseOver(){ 
 		if(!GameObject.Find("hand")){master.showHand (true);}
 		mouseover=true;
@@ -28,14 +30,16 @@ public class AT_Controller : MonoBehaviour {
 	void OnMouseExit(){
 		if(GameObject.Find("hand")){master.showHand (false);}
 		mouseover=false;
-	}
+    }
 
 	void Start () {
 		this.transform.position = master.setThisZ(this.transform.position,0.02f);
 		spawner = master.getChildFrom("spawner",this.gameObject);
 		zone = master.getChildFrom("zone",this.gameObject);
 		master.setLayer("tower",this.gameObject);
-	}
+
+        _animator = transform.FindChild("Archer").GetComponent<Animator>();
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -61,7 +65,29 @@ public class AT_Controller : MonoBehaviour {
 
 	private void shot(){
 		shot_=false;
-		if(enemies.Count>0){Instantiate_Bullet();}
+		if(enemies.Count > 0 && enemies[enemies.Count - 1] != null)
+        {
+            Transform target = enemies[enemies.Count - 1].transform;
+
+            Vector2 targetPos = new Vector2(target.position.x, target.position.y);
+            Vector2 archerPos = new Vector2(_animator.transform.position.x, _animator.transform.position.y);
+
+            Vector2 direction = (targetPos - archerPos).normalized;
+            _animator.SetFloat("AttackDirectionX", direction.x);
+            _animator.SetFloat("AttackDirectionY", direction.y);
+            //if (target.position.x < _animator.transform.position.x)
+            //    _animator.SetFloat("AttackDirectionX", -1);
+            //else
+            //    _animator.SetFloat("AttackDirectionX", 1);
+
+            //if (target.position.y < _animator.transform.position.y)
+            //    _animator.SetFloat("AttackDirectionY", -1);
+            //else
+            //    _animator.SetFloat("AttackDirectionY", 1);
+
+            _animator.SetTrigger("AttackTrigger");
+            Instantiate_Bullet();
+        }
 	}
 
 	private void Instantiate_Bullet(){
