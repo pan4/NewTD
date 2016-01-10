@@ -20,9 +20,10 @@ public class AT_Controller : MonoBehaviour {
 	public int Damage_ = 1;
 	public bool fire = false;
 
-    private Animator _animator;
+    private Animator _archerAnimator1;
+    private Animator _archerAnimator2;
 
-	void OnMouseOver(){ 
+    void OnMouseOver(){ 
 		if(!GameObject.Find("hand")){master.showHand (true);}
 		mouseover=true;
 	}
@@ -38,7 +39,8 @@ public class AT_Controller : MonoBehaviour {
 		zone = master.getChildFrom("zone",this.gameObject);
 		master.setLayer("tower",this.gameObject);
 
-        _animator = transform.FindChild("Archer").GetComponent<Animator>();
+        _archerAnimator1 = transform.FindChild("Archer1").GetComponent<Animator>();
+        _archerAnimator2 = transform.FindChild("Archer2").GetComponent<Animator>();
     }
 
 	// Update is called once per frame
@@ -63,39 +65,54 @@ public class AT_Controller : MonoBehaviour {
 		}
 	}
 
-	private void shot(){
-		shot_=false;
-		if(enemies.Count > 0 && enemies[enemies.Count - 1] != null)
+    private int _archersOrder = 0;
+
+    private void shot()
+    {
+        shot_ = false;
+
+        if (enemies.Count == 0)
+            return;
+
+        if (_archersOrder % 2 == 0)
         {
-            Transform target = enemies[enemies.Count - 1].transform;
-
-            Vector2 targetPos = new Vector2(target.position.x, target.position.y);
-            Vector2 archerPos = new Vector2(_animator.transform.position.x, _animator.transform.position.y);
-
-            Vector2 direction = (targetPos - archerPos).normalized;
-            _animator.SetFloat("AttackDirectionX", direction.x);
-            _animator.SetFloat("AttackDirectionY", direction.y);
-            //if (target.position.x < _animator.transform.position.x)
-            //    _animator.SetFloat("AttackDirectionX", -1);
-            //else
-            //    _animator.SetFloat("AttackDirectionX", 1);
-
-            //if (target.position.y < _animator.transform.position.y)
-            //    _animator.SetFloat("AttackDirectionY", -1);
-            //else
-            //    _animator.SetFloat("AttackDirectionY", 1);
-
-            _animator.SetTrigger("AttackTrigger");
-            Instantiate_Bullet();
+            if (enemies[enemies.Count - 1] != null)
+            {
+                Transform target = enemies[enemies.Count - 1].transform;
+                ShotAnimation(_archerAnimator1, target);
+                Instantiate_Bullet(_archerAnimator1.transform, enemies[enemies.Count - 1]);
+            }
         }
-	}
+        else
+        {
+            if (enemies[0] != null)
+            {
+                Transform target = enemies[0].transform;
+                ShotAnimation(_archerAnimator2, target);
+                Instantiate_Bullet(_archerAnimator2.transform, enemies[0]);
+            }
+        }
+    }
 
-	private void Instantiate_Bullet(){
-		GameObject Bullet = Instantiate(Resources.Load("AT/arrow"), new Vector3(spawner.transform.position.x,spawner.transform.position.y,spawner.transform.position.z), Quaternion.identity)as GameObject;
+    private void ShotAnimation(Animator archer, Transform target)
+    {
+        Vector2 targetPos = new Vector2(target.position.x, target.position.y);
+        Vector2 archerPos = new Vector2(archer.transform.position.x, archer.transform.position.y);
+
+        Vector2 direction = (targetPos - archerPos).normalized;
+
+        archer.SetFloat("AttackDirectionX", direction.x);
+        archer.SetFloat("AttackDirectionY", direction.y);
+        archer.SetTrigger("AttackTrigger");
+    }
+
+
+	private void Instantiate_Bullet(Transform spawner, GameObject target){
+        GameObject Bullet = Instantiate(Resources.Load("AT/arrow"), spawner.position, Quaternion.identity)as GameObject;
 		Parabolic_shot_Controller BulletProperties = Bullet.GetComponent<Parabolic_shot_Controller>();
 		Bullet.GetComponent<Damage>().Damage_ = Damage_;
 		//############# Bullet properties --
-		BulletProperties.target = enemies[enemies.Count-1];
+		BulletProperties.target = target;
 		if(enemies[0]!=null){
 			BulletProperties.maxLaunch = getminSpeed((int)master.angle_(spawner.transform.position,enemies[0].transform.position));
 		}else{
@@ -105,6 +122,8 @@ public class AT_Controller : MonoBehaviour {
 		BulletProperties.accuracy_mode=accuracy_mode;
 		BulletProperties.fire = fire;
 		Bullet.name="Arrow";
+
+        _archersOrder++;
 	}
 	private float getminSpeed(int angle){
 		float aux = 0.1f;
