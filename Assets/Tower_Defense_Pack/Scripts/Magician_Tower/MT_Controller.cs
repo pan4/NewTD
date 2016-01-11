@@ -77,26 +77,36 @@ public class MT_Controller : MonoBehaviour {
 			}
 		}
 	}
-	private void shot(){
-		shot_=false;
-		if(enemies.Count>0&&enemies[enemies.Count-1]!=null){
-			if(enemies[enemies.Count-1].transform.position.x < this.transform.position.x && faceright == true){
-				Flip();
-			}
-			if(enemies[enemies.Count-1].transform.position.x >= this.transform.position.x && faceright == false){
-				Flip();
-			}
-			anim.SetBool ("attack", true);
-			Instantiate_Bullet(spawner, "Magic");
+	private void shot()
+    {
+		shot_=false;        
+        if (enemies.Count > 0 && enemies[enemies.Count - 1] != null)
+        {
+            Transform target = enemies[enemies.Count - 1].transform;
+            ShotAnimation(anim, target);
+            Instantiate_Bullet(anim.transform, "Magic");
 		}
 	}
 
-	private void InstantateWithDelay(){
-		Instantiate_Bullet(spawner, "Magic");
-	}
+    private void ShotAnimation(Animator archer, Transform target)
+    {
+        Vector2 targetPos = new Vector2(target.position.x, target.position.y);
+        Vector2 archerPos = new Vector2(archer.transform.position.x, archer.transform.position.y);
 
-	private void Instantiate_Bullet(GameObject pos, string name){
-		GameObject Bullet = Instantiate(Resources.Load("MT/Mfire"), pos.transform.position, Quaternion.identity)as GameObject;
+        Vector2 direction = (targetPos - archerPos).normalized;
+
+        archer.SetFloat("AttackDirectionX", direction.x);
+        archer.SetFloat("AttackDirectionY", direction.y);
+        archer.SetTrigger("AttackTrigger");
+    }
+
+ //   private void InstantateWithDelay(){
+	//	Instantiate_Bullet(spawner, "Magic");
+	//}
+
+	private void Instantiate_Bullet(Transform pos, string name)
+    {
+		GameObject Bullet = Instantiate(Resources.Load("MT/Mfire"), pos.position, Quaternion.identity)as GameObject;
 		MT_Bullet BulletProperties = Bullet.GetComponent<MT_Bullet>();
 		//############# Bullet properties --
 		BulletProperties.target = enemies[enemies.Count-1];
