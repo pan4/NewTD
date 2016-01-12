@@ -64,7 +64,7 @@ public class Enemies_Controller : MonoBehaviour {
 				}
 			}else{
 				anim.SetBool ("walk", true);
-			}
+            }
 		}
 	}
 

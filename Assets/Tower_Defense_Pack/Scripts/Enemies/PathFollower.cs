@@ -21,12 +21,16 @@ public class PathFollower : MonoBehaviour {
 	private float seed = 0.2f;
 	private bool randomized = false;
 	private float rand=0f;
-	//public int knights = 0;
-	// Use this for initialization
+    //public int knights = 0;
+    // Use this for initialization
+
+    Animator _animator;
+
 	void Start () {
 		life = GameObject.Find("Life").GetComponent<Text>();
 		money = GameObject.Find("Money").GetComponent<Text>();
 		LifeBtn = GameObject.Find("Button");
+        _animator = GetComponent<Animator>();
 	}
 
 	// Update is called once per frame
@@ -45,8 +49,14 @@ public class PathFollower : MonoBehaviour {
 					randomized=true;
 					randomizePath();//Create a random path using points.
 				}
-				needFlip(custom[currentPoint]);
-				transform.position = Vector2.MoveTowards (transform.position, custom[currentPoint], Time.deltaTime*speed);
+				//needFlip(custom[currentPoint]);
+
+                Vector2 direction = (custom[currentPoint] - transform.position).normalized;
+
+                _animator.SetFloat("WalkDirectionX", direction.x);
+                _animator.SetFloat("WalkDirectionY", direction.y);
+
+                transform.position = Vector2.MoveTowards (transform.position, custom[currentPoint], Time.deltaTime*speed);
 				this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y);
 				Vector2 patchPos = new Vector2 (this.transform.position.x,this.transform.position.y);
 				Vector2 patchCustomPos = new Vector2 (custom[currentPoint].x,custom[currentPoint].y);
@@ -68,7 +78,7 @@ public class PathFollower : MonoBehaviour {
 				if(currentPoint>=path.Length){Destroy(this.gameObject);}
 			}
 			if(target==null){fighting=false;}
-			if(fighting==true&&faceright==false){Flip();}
+			//if(fighting==true&&faceright==false){Flip();}
 		}
 	}
 
