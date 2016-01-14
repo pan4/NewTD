@@ -94,7 +94,13 @@ public class PathFollower : MonoBehaviour {
 	private void setFight(){
 		auxfight=true;
 		fighting=true;
-	}
+        if (target != null)
+        {
+            Vector2 direction = (target.transform.position - transform.position).normalized;
+            _animator.SetFloat("WalkDirectionX", direction.x);
+            _animator.SetFloat("WalkDirectionY", direction.y);
+        }
+    }
 
 	public void reduceSpeed(){
 		speed = speed/2;

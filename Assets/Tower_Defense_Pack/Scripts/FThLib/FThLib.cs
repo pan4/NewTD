@@ -58,9 +58,11 @@ namespace FThLib {
 			Destroy (GameObject.Find("Interface"));
 		}
 		public static GameObject getChildFrom(string name, GameObject from){
-			GameObject aux=null;
-			foreach(Transform child in from.transform){if(child.name==name){aux=child.gameObject;}}
-			return aux;
+            Transform result = from.transform.FindChild(name);
+            if (result != null)
+                return result.gameObject;
+            else
+                return null;
 		}
 		public static void setLayer(string name, GameObject go){if(LayerMask.NameToLayer(name)!=-1){go.layer = LayerMask.NameToLayer(name);}}
 		public static float angle_(Vector3 a, Vector3 b){
