@@ -32,13 +32,16 @@ public class Onclick_CP : MonoBehaviour {
 
 		if(this.gameObject.GetComponent<SpriteRenderer>().material.color.a!=0.5f){//---------------------------------prices
 			if (Input.GetMouseButtonDown(0)&&mouseover==true){
-				GetComponent<SpriteRenderer>().sprite = clicked;
-				masterPoint.anybuttonclicked=true;
+				//GetComponent<SpriteRenderer>().sprite = clicked;
+                transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+                masterPoint.anybuttonclicked=true;
 				this.gameObject.transform.parent.transform.parent.gameObject.GetComponent<CP_Controller>().clicked=true;
 			}
-			if (Input.GetMouseButtonUp(0)&&GetComponent<SpriteRenderer>().sprite==clicked){
+			if (Input.GetMouseButtonUp(0)&& transform.localScale.x == 0.9f)
+            {
 				master.showHand(false);
-				GetComponent<SpriteRenderer>().sprite = aux;
+                //GetComponent<SpriteRenderer>().sprite = aux;
+                transform.localScale = new Vector3(1f, 1f, 1f);
 				masterPoint.removeMoney(masterPoint.getPrice(this.gameObject));//---------------------------------prices
 				createTower();
 			}
@@ -79,7 +82,7 @@ public class Onclick_CP : MonoBehaviour {
 		parent_.GetComponent<CircleCollider2D>().enabled=false;
 		foreach(Transform child in gameObject.transform.parent.transform){
 			child.gameObject.GetComponent<SpriteRenderer>().enabled=false;
-			child.gameObject.GetComponent<BoxCollider2D>().enabled=false;
+			child.gameObject.GetComponent<CircleCollider2D>().enabled=false;
 		}
 		this.gameObject.transform.parent.gameObject.GetComponent<SpriteRenderer>().enabled=false;
 	}
