@@ -25,19 +25,22 @@ public class PathFollower : MonoBehaviour {
     // Use this for initialization
 
     Animator _animator;
+    private Transform _rightPoin;
 
-	void Start () {
+    void Start () {
 		life = GameObject.Find("Life").GetComponent<Text>();
 		money = GameObject.Find("Money").GetComponent<Text>();
 		LifeBtn = GameObject.Find("Button");
         _animator = GetComponent<Animator>();
-	}
+        _rightPoin = transform.FindChild("RightPoint");
+    }
 
 	// Update is called once per frame
 	void Update () {
 		if(!master.isFinish()){
 			if(fighting==false){auxfight=false;}
-			if(auxfight!=fighting){//Randomize the time to "stop and fight" when have a target...
+			if(auxfight!= fighting && target != null)
+            {//Randomize the time to "stop and fight" when have a target...
 				rand = Random.Range(0.001f, 2F);
 				float randb = Random.Range(rand, rand+2f);
 				Invoke("setFight",Random.Range(rand, randb));
@@ -96,7 +99,7 @@ public class PathFollower : MonoBehaviour {
 		fighting=true;
         if (target != null)
         {
-            Vector2 direction = (target.transform.position - transform.position).normalized;
+            Vector2 direction = (_rightPoin.transform.position - transform.position).normalized;
             _animator.SetFloat("WalkDirectionX", direction.x);
             _animator.SetFloat("WalkDirectionY", direction.y);
         }

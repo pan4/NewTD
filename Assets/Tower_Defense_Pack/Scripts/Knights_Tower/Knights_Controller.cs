@@ -39,7 +39,10 @@ public class Knights_Controller : MonoBehaviour {
 		auxbar = lifebar.transform.localScale;
 		_animator = this.gameObject.GetComponent<Animator> ();
 		_animator.SetBool ("walk", false);
-		_animator.SetBool ("dead", false);
+        _animator.SetFloat("WalkDirectionX", 0f);
+        _animator.SetFloat("WalkDirectionY", -1f);
+
+        _animator.SetBool ("dead", false);
 		_animator.SetBool ("attack", false);
 	}
 
