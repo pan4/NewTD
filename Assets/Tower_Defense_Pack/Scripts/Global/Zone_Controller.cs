@@ -4,7 +4,8 @@ using System.Collections;
 public class Zone_Controller : MonoBehaviour {
 	private GameObject parent_;
 	private AT_Controller ATProperties;
-	private KT_Controller KTProperties;
+    private BombTowerController BTProperties;
+    private KT_Controller KTProperties;
 	private MiniKT_Controller MiniKTProperties;
 	private MT_Controller MTProperties;
 	// Use this for initialization
@@ -13,7 +14,13 @@ public class Zone_Controller : MonoBehaviour {
 		if(parent_.name=="AT"+0||parent_.name=="AT"+1||parent_.name=="AT"+2){
 			ATProperties = parent_.GetComponent<AT_Controller>();
 		}
-		if(parent_.name=="KT"+0||parent_.name=="KT"+1||parent_.name=="KT"+2){
+
+        if (parent_.name == "BT" + 0 || parent_.name == "BT" + 1 || parent_.name == "BT" + 2)
+        {
+            BTProperties = parent_.GetComponent<BombTowerController>();
+        }
+
+        if (parent_.name=="KT"+0||parent_.name=="KT"+1||parent_.name=="KT"+2){
 			KTProperties = parent_.GetComponent<KT_Controller>();
 		}
 		if(parent_.name=="MT0"){
@@ -31,7 +38,13 @@ public class Zone_Controller : MonoBehaviour {
 			if(parent_.name=="AT"+0||parent_.name=="AT"+1||parent_.name=="AT"+2){
 				ATProperties.enemyAdd(other.gameObject);
 			}
-			if(parent_.name=="KT"+0||parent_.name=="KT"+1||parent_.name=="KT"+2){
+
+            if (parent_.name == "BT" + 0 || parent_.name == "BT" + 1 || parent_.name == "BT" + 2)
+            {
+                BTProperties.enemyAdd(other.gameObject);
+            }
+
+            if (parent_.name=="KT"+0||parent_.name=="KT"+1||parent_.name=="KT"+2){
 				KTProperties.enemyAdd(other.gameObject);
 			}
 			if(parent_.name=="MT0"){
@@ -48,7 +61,13 @@ public class Zone_Controller : MonoBehaviour {
 			if(parent_.name=="AT"+0||parent_.name=="AT"+1||parent_.name=="AT"+2){
 				ATProperties.enemyRemove(other.gameObject.name);
 			}
-			if(parent_.name=="KT"+0||parent_.name=="KT"+1||parent_.name=="KT"+2){
+
+            if (parent_.name == "BT" + 0 || parent_.name == "BT" + 1 || parent_.name == "BT" + 2)
+            {
+                BTProperties.enemyRemove(other.gameObject.name);
+            }
+
+            if (parent_.name=="KT"+0||parent_.name=="KT"+1||parent_.name=="KT"+2){
 				KTProperties.enemyRemove(other.gameObject.name);
 			}
 			if(parent_.name=="MT0"){

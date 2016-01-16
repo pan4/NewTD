@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using FThLib;
 
-public class Parabolic_shot_Controller : MonoBehaviour {
+public class BombController : MonoBehaviour {
 	//--Public
 	public GameObject target=null;
 	public int accuracy_mode=3;//1 the best
@@ -14,20 +14,54 @@ public class Parabolic_shot_Controller : MonoBehaviour {
 	private float launch_placey=0f;
 	public bool fire = false;
 	private Vector3 latestpos = new Vector3(0,0,0);
-	// Use this for initialization
-	void Start () {
+
+    [SerializeField]
+    private float _hittingArea = 1f;
+
+    private int _damage = 5;
+    public int Damage
+    {
+        set
+        {
+            _damage = value;               
+        }
+    }
+    
+
+    // Use this for initialization
+    void Start () {
 		sw=true;
 		master.setLayer("tower",this.gameObject);
 	}
 	
 	void OnTriggerEnter2D(Collider2D coll) {
-        sw = false;
-        GetComponent<Rigidbody2D>().isKinematic = true;
-        GetComponent<Collider2D>().enabled = false;
-        this.transform.position = master.setThisZ(this.transform.position, 0);
-        Invoke("onDestroy",1);
+        sw = false;        
+		onDestroy();
 	}
 	
+    private void OnExplosion()
+    {
+        this.transform.position = master.setThisZ(this.transform.position, 0);
+        int layerMask = 0;
+        layerMask = 1 << LayerMask.NameToLayer("enemies");
+
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, _hittingArea, layerMask);
+
+        foreach (Collider2D collider in hitColliders)
+        {
+            Enemies_Controller enemyController = collider.GetComponent<Enemies_Controller>();
+            if (enemyController != null)
+            {
+                float distance = Vector3.SqrMagnitude(collider.transform.position - transform.position);
+                int currentDamage = (int)((1 - distance / (_hittingArea * _hittingArea)) * _damage);
+                float dm = (1 - distance / (_hittingArea * _hittingArea)) * _damage;
+
+                if (currentDamage > 0)
+                    enemyController.reduceLife(currentDamage);
+            }
+        }
+    }    
+
 	void OnCollisionEnter2D(Collision2D coll) {
 		
 	}
@@ -89,7 +123,7 @@ public class Parabolic_shot_Controller : MonoBehaviour {
 				GetComponent<Rigidbody2D>().isKinematic=true;
 				GetComponent<Collider2D>().enabled=false;
 				this.gameObject.transform.localEulerAngles = rotation_;
-				Invoke("onDestroy",1);
+                onDestroy();
 			}
 		}else{
 			if(this.transform.position.y<latestpos.y){
@@ -98,7 +132,7 @@ public class Parabolic_shot_Controller : MonoBehaviour {
 				GetComponent<Rigidbody2D>().isKinematic=true;
 				GetComponent<Collider2D>().enabled=false;
 				this.gameObject.transform.localEulerAngles = rotation_;
-				Invoke("onDestroy",1);
+                onDestroy();
 			}else{
 				if(GetComponent<Rigidbody2D>().isKinematic==false){
 					simulateRotation();
@@ -171,6 +205,7 @@ public class Parabolic_shot_Controller : MonoBehaviour {
 	}
 	
 	void onDestroy(){
-		Destroy (this.gameObject);
+        OnExplosion();
+        Destroy (this.gameObject);
 	}
 }

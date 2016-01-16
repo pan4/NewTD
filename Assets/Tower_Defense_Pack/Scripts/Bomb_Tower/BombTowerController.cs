@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using FThLib;
 //It contains the controller of mage in tower
-public class BT_Controller : MonoBehaviour
+public class BombTowerController : MonoBehaviour
 {
     //--Public
     public List<GameObject> enemies;
@@ -20,6 +20,9 @@ public class BT_Controller : MonoBehaviour
     public int accuracy_mode = 4;//Bassically it is used by the bullet, and add a force in direction to the target.
     public int Damage_ = 1;
     public bool fire = false;
+
+    private Animator _bomberAnimator1;
+    private Animator _bomberAnimator2;
 
     void OnMouseOver()
     {
@@ -39,6 +42,9 @@ public class BT_Controller : MonoBehaviour
         spawner = master.getChildFrom("spawner", this.gameObject);
         zone = master.getChildFrom("zone", this.gameObject);
         master.setLayer("tower", this.gameObject);
+
+        _bomberAnimator1 = transform.FindChild("Archer1").GetComponent<Animator>();
+        _bomberAnimator2 = transform.FindChild("Archer2").GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -76,19 +82,30 @@ public class BT_Controller : MonoBehaviour
         if (enemies.Count == 0)
             return;
 
+
         if (enemies[enemies.Count - 1] != null)
         {
             Transform target = enemies[enemies.Count - 1].transform;
+            ShotAnimation(_bomberAnimator1);
+            ShotAnimation(_bomberAnimator2);
             Instantiate_Bullet(transform, enemies[enemies.Count - 1]);
         }
-
+        
     }
+
+    private void ShotAnimation(Animator archer)
+    {
+        archer.SetFloat("AttackDirectionX", 0f);
+        archer.SetFloat("AttackDirectionY", -1f);
+        archer.SetTrigger("AttackTrigger");
+    }
+
 
     private void Instantiate_Bullet(Transform spawner, GameObject target)
     {
-        GameObject Bullet = Instantiate(Resources.Load("AT/arrow"), spawner.position, Quaternion.identity) as GameObject;
-        Parabolic_shot_Controller BulletProperties = Bullet.GetComponent<Parabolic_shot_Controller>();
-        Bullet.GetComponent<Damage>().Damage_ = Damage_;
+        GameObject Bullet = Instantiate(Resources.Load("BT/bomb"), spawner.position + Vector3.up * 0.5f, Quaternion.identity) as GameObject;
+        BombController BulletProperties = Bullet.GetComponent<BombController>();
+        BulletProperties.Damage = Damage_;
         //############# Bullet properties --
         BulletProperties.target = target;
         if (enemies[0] != null)
@@ -102,7 +119,7 @@ public class BT_Controller : MonoBehaviour
 
         BulletProperties.accuracy_mode = accuracy_mode;
         BulletProperties.fire = fire;
-        Bullet.name = "Arrow";
+        Bullet.name = "bomb";
     }
     private float getminSpeed(int angle)
     {
