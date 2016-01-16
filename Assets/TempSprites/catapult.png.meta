@@ -1,9 +1,73 @@
 fileFormatVersion: 2
 guid: b04ca3f795267ff4586852e8aed640c6
-timeCreated: 1452971919
+timeCreated: 1452973897
 licenseType: Pro
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: catapult_0
+    21300002: catapult_1
+    21300004: catapult_2
+    21300006: catapult_3
+    21300008: catapult_4
+    21300010: catapult_5
+    21300012: catapult_6
+    21300014: catapult_7
+    21300016: catapult_8
+    21300018: catapult_9
+    21300020: catapult_10
+    21300022: catapult_11
+    21300024: catapult_12
+    21300026: catapult_13
+    21300028: catapult_14
+    21300030: catapult_15
+    21300032: catapult_17
+    21300034: catapult_18
+    21300036: catapult_19
+    21300038: catapult_20
+    21300040: catapult_21
+    21300042: catapult_22
+    21300044: catapult_23
+    21300046: catapult_24
+    21300048: catapult_25
+    21300050: catapult_26
+    21300052: catapult_27
+    21300054: catapult_28
+    21300056: catapult_29
+    21300058: catapult_30
+    21300060: catapult_31
+    21300062: catapult_32
+    21300064: catapult_34
+    21300066: catapult_35
+    21300068: catapult_36
+    21300070: catapult_37
+    21300072: catapult_38
+    21300074: catapult_39
+    21300076: catapult_40
+    21300078: catapult_41
+    21300080: catapult_42
+    21300082: catapult_43
+    21300084: catapult_44
+    21300086: catapult_45
+    21300088: catapult_46
+    21300090: catapult_47
+    21300092: catapult_48
+    21300094: catapult_49
+    21300096: catapult_51
+    21300098: catapult_52
+    21300100: catapult_53
+    21300102: catapult_54
+    21300104: catapult_55
+    21300106: catapult_56
+    21300108: catapult_57
+    21300110: catapult_58
+    21300112: catapult_59
+    21300114: catapult_60
+    21300116: catapult_61
+    21300118: catapult_62
+    21300120: catapult_63
+    21300122: catapult_64
+    21300124: catapult_65
+    21300126: catapult_66
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +94,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,18 +102,722 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: catapult_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 602
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_1
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 602
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_2
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 602
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_3
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 602
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_4
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 562
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_5
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 562
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_6
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 562
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_7
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 562
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_8
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 522
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_9
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 522
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_10
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 522
+        width: 26
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_11
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 522
+        width: 26
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_12
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 482
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_13
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 482
+        width: 25
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_14
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 482
+        width: 27
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_15
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 481
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_17
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 442
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_18
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 442
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_19
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 442
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_20
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 442
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_21
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 402
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_22
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 402
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_23
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 402
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_24
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 402
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_25
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 362
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_26
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 362
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_27
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 362
+        width: 26
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_28
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 362
+        width: 26
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_29
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 322
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_30
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 322
+        width: 25
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_31
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 322
+        width: 27
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_32
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 321
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_34
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 282
+        width: 34
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_35
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 282
+        width: 34
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_36
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 282
+        width: 34
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_37
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 282
+        width: 34
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_38
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 241
+        width: 33
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_39
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 241
+        width: 33
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_40
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 241
+        width: 35
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_41
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 241
+        width: 35
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_42
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 201
+        width: 35
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_43
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 201
+        width: 33
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_44
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 201
+        width: 30
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_45
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 201
+        width: 30
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_46
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 161
+        width: 34
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_47
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 161
+        width: 34
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_48
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 161
+        width: 34
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_49
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 161
+        width: 35
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_51
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 121
+        width: 34
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_52
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 121
+        width: 34
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_53
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 121
+        width: 34
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_54
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 121
+        width: 34
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_55
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 81
+        width: 33
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_56
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 81
+        width: 33
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_57
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 81
+        width: 35
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_58
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 81
+        width: 35
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_59
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 41
+        width: 35
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_60
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 41
+        width: 33
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_61
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 41
+        width: 30
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_62
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 41
+        width: 30
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_63
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1
+        width: 34
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_64
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 1
+        width: 34
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_65
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 1
+        width: 34
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: catapult_66
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 1
+        width: 35
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     outline: []
   spritePackingTag: 
   userData: 

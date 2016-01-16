@@ -23,6 +23,7 @@ public class BombTowerController : MonoBehaviour
 
     private Animator _bomberAnimator1;
     private Animator _bomberAnimator2;
+    private Animator _catapultAnimator;
 
     void OnMouseOver()
     {
@@ -45,6 +46,7 @@ public class BombTowerController : MonoBehaviour
 
         _bomberAnimator1 = transform.FindChild("Archer1").GetComponent<Animator>();
         _bomberAnimator2 = transform.FindChild("Archer2").GetComponent<Animator>();
+        _catapultAnimator = transform.FindChild("Catapult").GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -86,19 +88,41 @@ public class BombTowerController : MonoBehaviour
         if (enemies[enemies.Count - 1] != null)
         {
             Transform target = enemies[enemies.Count - 1].transform;
-            ShotAnimation(_bomberAnimator1);
-            ShotAnimation(_bomberAnimator2);
-            Instantiate_Bullet(transform, enemies[enemies.Count - 1]);
+            BomberShotAnimation(_bomberAnimator1);
+            BomberShotAnimation(_bomberAnimator2);
+            CatapultShotAnimation(_catapultAnimator, target);
+            //Instantiate_Bullet(transform, enemies[enemies.Count - 1]);
+            StartCoroutine(StartBulletInstantiate());
         }
         
     }
 
-    private void ShotAnimation(Animator archer)
+    IEnumerator StartBulletInstantiate()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (enemies.Count != 0 && enemies[enemies.Count - 1] != null)
+            Instantiate_Bullet(transform, enemies[enemies.Count - 1]);
+    }
+
+    private void BomberShotAnimation(Animator archer)
     {
         archer.SetFloat("AttackDirectionX", 0f);
         archer.SetFloat("AttackDirectionY", -1f);
         archer.SetTrigger("AttackTrigger");
     }
+
+    private void CatapultShotAnimation(Animator catapult, Transform target)
+    {
+        Vector2 targetPos = new Vector2(target.position.x, target.position.y);
+        Vector2 catapultPos = new Vector2(catapult.transform.position.x, catapult.transform.position.y);
+
+        Vector2 direction = (targetPos - catapultPos).normalized;
+
+        catapult.SetFloat("AttackDirectionX", direction.x);
+        catapult.SetFloat("AttackDirectionY", direction.y);
+        catapult.SetTrigger("AttackTrigger");
+    }
+
 
 
     private void Instantiate_Bullet(Transform spawner, GameObject target)
