@@ -73,7 +73,7 @@ public class Mt_Buttons : MonoBehaviour {
 			actionEnd();}
 		if(this.gameObject.name=="MTFire"){
 			this.gameObject.transform.parent.transform.parent.GetComponent<MT_Controller>().fire=true;
-			this.gameObject.transform.parent.transform.parent.GetComponent<MT_Controller>().Damage_ = damage;
+			this.gameObject.transform.parent.transform.parent.GetComponent<MT_Controller>().damage = damage;
 			actionEnd();
 		}
 		if(this.gameObject.name=="Ice"){

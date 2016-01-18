@@ -26,8 +26,7 @@ public class CannonTowerController : TowerController {
 	private bool firstime=true;
 	private int a=0;
 	//About knights
-	public int damage = 3;
-	public int life = 20;
+
 	public bool shield =false;
 
     [SerializeField]
@@ -45,7 +44,7 @@ public class CannonTowerController : TowerController {
 		mouseover=false;
 	}
 	void OnTriggerEnter2D(Collider2D coll) {
-		if(coll.name=="Knight1"||coll.name=="Knight2"||coll.name=="Knight3"){
+		if(coll.name=="Cannon"||coll.name=="Knight2"||coll.name=="Knight3"){
 			StartCoroutine(setZ(coll.gameObject, 1f));
 		}
 	}
@@ -98,38 +97,36 @@ public class CannonTowerController : TowerController {
 		}
 	}
 
-	GameObject getKnight(GameObject target){//Knight stoped and no fighting
-		GameObject aux = null;
-		Knights_Controller k1properties;
-
-		bool k1 =false;
-
-		if(master.getChildFrom ("Knight1",this.gameObject)!=null){
-			k1properties = master.getChildFrom("Knight1",this.gameObject).GetComponent<Knights_Controller>();
-			k1 = knightCanFight("Knight1", target);
+	GameObject getKnight(GameObject target)
+    {//Knight stoped and no fighting
+        GameObject aux = null;
+		bool k1 = false;
+		if(master.getChildFrom ("Cannon",this.gameObject)!=null){
+			k1 = knightCanFight("Cannon", target);
 		}
 		if(k1 == true){
-			aux = master.getChildFrom ("Knight1",this.gameObject);
+			aux = master.getChildFrom ("Cannon",this.gameObject);
 		}
 		return aux;
 	}
 
 
-	public void setDamage(){
-		if(master.getChildFrom("Knight1",this.gameObject)){
-			master.getChildFrom("Knight1",this.gameObject).GetComponent<Knights_Controller>().damage=damage;
+	public override void setDamage(){
+		if(master.getChildFrom("Cannon",this.gameObject)){
+			master.getChildFrom("Cannon",this.gameObject).GetComponent<CannonController>().damage=damage;
 		}
 	}
 
-	public void setShield(){
+	public override void setShield(){
 		shield = true;
-		if(master.getChildFrom("Knight1",this.gameObject)){
-			master.getChildFrom("Knight1",this.gameObject).GetComponent<Knights_Controller>().shield=true;
-			master.getChildFrom("Knight1",this.gameObject).GetComponent<Knights_Controller>().resetLife(life);
+
+		if(master.getChildFrom("Cannon",this.gameObject)){
+			master.getChildFrom("Cannon",this.gameObject).GetComponent<CannonController>().shield=true;
+			master.getChildFrom("Cannon",this.gameObject).GetComponent<CannonController>().resetLife(life);
 		}
 	}
 
-	public void Reset(){
+	public override void Reset(){
 		master.getChildFrom("TargetedZone",this.gameObject).transform.position = flag.transform.position;
 		if(enemies.Count>0){
 			for(int i=0; i<enemies.Count ;i++){
@@ -141,8 +138,8 @@ public class CannonTowerController : TowerController {
 				enemyRemove(enemies[i].name);
 			}
 		}
-		if(master.getChildFrom("Knight1",this.gameObject)){
-			Knights_Controller properties = master.getChildFrom("Knight1",this.gameObject).GetComponent<Knights_Controller>();
+		if(master.getChildFrom("Cannon",this.gameObject)){
+			CannonController properties = master.getChildFrom("Cannon",this.gameObject).GetComponent<CannonController>();
 			if(properties.fighting==true&&properties.target!=null){
 				properties.target.GetComponent<PathFollower>().fighting=false;
 				properties.target.GetComponent<PathFollower>().target = null;
@@ -155,7 +152,7 @@ public class CannonTowerController : TowerController {
 	// Update is called once per frame
 	bool knightCanFight(string name, GameObject target){
 		bool aux = false;
-		Knights_Controller kproperties = master.getChildFrom(name,this.gameObject).GetComponent<Knights_Controller>();
+		CannonController kproperties = master.getChildFrom(name,this.gameObject).GetComponent<CannonController>();
 		if(kproperties.fighting==false){
 			kproperties.fighting=true;
 			kproperties.target=target;
@@ -166,7 +163,7 @@ public class CannonTowerController : TowerController {
 	}
 
 	private void knightCall(){//Instantiate
-		if(master.getChildFrom("Knight1",this.gameObject)){
+		if(master.getChildFrom("Cannon",this.gameObject)){
 			firstime=false;
 		}else{
 			if(firstime==true){//Fist time respawn is better
@@ -187,7 +184,7 @@ public class CannonTowerController : TowerController {
 		GameObject Knight = Instantiate(Resources.Load(_unitPath), spawner.transform.position, Quaternion.identity)as GameObject;
 		Knight.transform.SetParent(this.gameObject.transform);
 		opening = true;
-		Knights_Controller KnightProperties = Knight.GetComponent<Knights_Controller>();
+		CannonController KnightProperties = Knight.GetComponent<CannonController>();
 		KnightProperties.flag=flag;
 		KnightProperties.life=life;
 		KnightProperties.shield = shield;
@@ -196,7 +193,7 @@ public class CannonTowerController : TowerController {
 	}
 
 	private string getKnightName(){
-		string aux_ = "Knight1";
+		string aux_ = "Cannon";
         return aux_;
     }
 
@@ -242,7 +239,16 @@ public class CannonTowerController : TowerController {
 			break;
 		}
 	}
-	private void setFlagZ(){master.getChildFrom("flag",this.gameObject).transform.position=new Vector3(master.getChildFrom("flag",this.gameObject).transform.position.x,master.getChildFrom("flag",this.gameObject).transform.position.y,master.getChildFrom("flag",this.gameObject).transform.position.y+0.2f);}
-	private void setclosing(){closing=true;}
-	//--End about door
+
+	private void setFlagZ()
+    {
+        Transform flag = transform.FindChild("flag");
+        flag.position = flag.position + Vector3.up * 0.2f;
+    }
+
+    private void setclosing()
+    {
+        closing = true;
+    }
+
 }

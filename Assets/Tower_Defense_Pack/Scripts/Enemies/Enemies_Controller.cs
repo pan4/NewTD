@@ -53,7 +53,7 @@ public class Enemies_Controller : MonoBehaviour {
 			if(properties_.auxfight==true){
 				anim.SetBool ("walk", false);
 				if(properties_.target!=null){
-					Knights_Controller knight = properties_.target.GetComponent<Knights_Controller>();
+                    DefenderController knight = properties_.target.GetComponent<DefenderController>();
 					if(knight.move==false&&Attack==false){//is near
 						Attack=true;
 						anim.SetBool ("attack", true);
@@ -93,7 +93,7 @@ public class Enemies_Controller : MonoBehaviour {
 
 	private void enemyreduceLife(){
 		if(properties_.target!=null){
-			Knights_Controller properties = properties_.target.GetComponent<Knights_Controller>();
+            DefenderController properties = properties_.target.GetComponent<DefenderController>();
 			properties.reduceLife(damage);
 		}
 	}

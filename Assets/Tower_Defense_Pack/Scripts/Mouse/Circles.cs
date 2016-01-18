@@ -44,8 +44,8 @@ public class Circles : MonoBehaviour {
 	}
 
 	private void Disable_all(){
-		//--
-		KT_Controller ktproperties = this.transform.parent.transform.parent.GetComponent<KT_Controller>();
+        //--
+        TowerController ktproperties = this.transform.parent.transform.parent.GetComponent<TowerController>();
 		ktproperties.Reset();
 		//--
 		this.transform.parent.transform.parent.GetComponent<CircleCollider2D>().enabled=true;

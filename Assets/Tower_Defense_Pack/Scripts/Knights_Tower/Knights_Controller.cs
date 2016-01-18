@@ -2,14 +2,14 @@
 using System.Collections;
 using FThLib;
 
-public class Knights_Controller : MonoBehaviour {
+public class Knights_Controller : DefenderController
+{
 	//public
 	public int life=0;
 	public int damage=3;
 	public GameObject flag=null;
 	public GameObject target=null;	
 	public bool fighting=false;
-	public bool move=false;
 	public bool faceright = true;
 	public bool shield = false;
 	//private
@@ -51,7 +51,7 @@ public class Knights_Controller : MonoBehaviour {
 		if(!master.isFinish()){
 
             this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y);
-			if(shield==true){_animator.SetLayerWeight(1, 1);}
+			//if(shield==true){_animator.SetLayerWeight(1, 1);}
 			if (_animator.GetCurrentAnimatorStateInfo (0).IsName ("Attack")) {_animator.SetBool ("attack", false);}
 			if(life!=0&&auxlife==0){getPoint();}
 			if(point!=0f&&auxlife==0){auxlife = life;}
@@ -145,7 +145,7 @@ public class Knights_Controller : MonoBehaviour {
 		healing = false;
 	}
 
-	public void reduceLife(int value){
+	public override void reduceLife(int value){
 		GameObject blood = Instantiate(Resources.Load("Global/blood"), this.transform.position, Quaternion.identity)as GameObject;
 		life=life-value;
 		float aux = value * point;

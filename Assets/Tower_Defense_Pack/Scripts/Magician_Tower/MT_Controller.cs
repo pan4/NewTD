@@ -22,7 +22,6 @@ public class MT_Controller : TowerController {
 	private bool mouseover=false;
 	//Public properties
 	public float s_timer = 0.9f;
-	public int Damage_ = 1;
 	public bool fire = false;
 	public bool ice = false;
 	public bool trap = false;
@@ -114,7 +113,7 @@ public class MT_Controller : TowerController {
 		//BulletProperties.accuracy_mode=accuracy_mode;
 		BulletProperties.fire = fire;
 		BulletProperties.ice = ice;
-		BulletProperties.Damage_ = Damage_;
+		BulletProperties.Damage_ = damage;
 		Bullet.name=name;
 		//--
 	}

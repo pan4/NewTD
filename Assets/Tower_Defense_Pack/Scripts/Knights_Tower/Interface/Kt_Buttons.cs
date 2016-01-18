@@ -11,7 +11,7 @@ public class Kt_Buttons : MonoBehaviour {
 	//About actions
 	private int life = 25; //Upgrade life 20 -> 25
 	private int damage = 5; //Upgrade damage 3 -> 5
-	KT_Controller instancer;
+	TowerController instancer;
 
 	void OnMouseOver(){ 
 		if(!GameObject.Find("hand")&&!GameObject.Find("circle")){master.showHand (true);}
@@ -29,7 +29,7 @@ public class Kt_Buttons : MonoBehaviour {
 			unclickeable.transform.parent = this.transform.parent;
 			Destroy(this.gameObject);
 		}else{
-			instancer = this.gameObject.transform.parent.transform.parent.GetComponent<KT_Controller>();
+			instancer = this.gameObject.transform.parent.transform.parent.GetComponent<TowerController>();
 			masterPoint = GameObject.Find("Instance_Point").GetComponent<Master_Instance>();
 			if(masterPoint.countMoney()<masterPoint.getPrice(this.gameObject)){master.isHide(this.gameObject);}//---------------------------------prices
 			aux = GetComponent<SpriteRenderer>().sprite;
@@ -70,7 +70,7 @@ public class Kt_Buttons : MonoBehaviour {
 			instancer.setDamage();
 		}
 		if(this.gameObject.name=="Life"){
-			this.gameObject.transform.parent.transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.transform.parent.transform.parent.gameObject.GetComponent<KT_Controller>().lvl2;
+			//this.gameObject.transform.parent.transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite = this.gameObject.transform.parent.transform.parent.gameObject.GetComponent<KT_Controller>().lvl2;
 			instancer.life=life;
 			instancer.setShield();
 		}

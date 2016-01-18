@@ -18,7 +18,6 @@ public class BombTowerController : TowerController
                                      //Public properties
     public float s_timer = 0.9f;
     public int accuracy_mode = 4;//Bassically it is used by the bullet, and add a force in direction to the target.
-    public int Damage_ = 1;
     public bool fire = false;
 
     private Animator _bomberAnimator1;
@@ -129,7 +128,7 @@ public class BombTowerController : TowerController
     {
         GameObject Bullet = Instantiate(Resources.Load("RT/bomb"), spawner.position + Vector3.up * 0.5f, Quaternion.identity) as GameObject;
         BombController BulletProperties = Bullet.GetComponent<BombController>();
-        BulletProperties.Damage = Damage_;
+        BulletProperties.Damage = damage;
         //############# Bullet properties --
         BulletProperties.target = target;
         if (target != null)

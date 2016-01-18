@@ -17,7 +17,6 @@ public class AT_Controller : TowerController {
 	//Public properties
 	public float s_timer = 0.9f;
 	public int accuracy_mode = 4;//Bassically it is used by the bullet, and add a force in direction to the target.
-	public int Damage_ = 1;
 	public bool fire = false;
 
     private Animator _archerAnimator1;
@@ -110,7 +109,7 @@ public class AT_Controller : TowerController {
 	private void Instantiate_Bullet(Transform spawner, GameObject target){
         GameObject Bullet = Instantiate(Resources.Load("AT/arrow"), spawner.position, Quaternion.identity)as GameObject;
 		Parabolic_shot_Controller BulletProperties = Bullet.GetComponent<Parabolic_shot_Controller>();
-		Bullet.GetComponent<Damage>().Damage_ = Damage_;
+		Bullet.GetComponent<Damage>().Damage_ = damage;
 		//############# Bullet properties --
 		BulletProperties.target = target;
 		if(enemies[0]!=null){

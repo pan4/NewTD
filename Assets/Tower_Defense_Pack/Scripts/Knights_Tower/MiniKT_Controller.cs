@@ -13,8 +13,7 @@ public class MiniKT_Controller : TowerController {
 	private int towerlvl = 0;
 	private float instancetime = 11f;//Time to be reusable
 	private GameObject flag=null;
-	private int damage = 2;
-	private int life = 20;
+
 	private int a=0;
 	//About knights
 	public bool shield =false;

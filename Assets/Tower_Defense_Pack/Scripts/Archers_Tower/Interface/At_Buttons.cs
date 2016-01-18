@@ -66,14 +66,14 @@ public class At_Buttons : MonoBehaviour {
 		}
 		if(this.gameObject.name=="Fire"){
 			this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().fire=true;
-			this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().Damage_ = damage;
+			this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().damage = damage;
 		}
 		if(this.gameObject.name=="Ratio"){
 			this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().s_timer=s_timer;
 		}
 		if(this.gameObject.name=="Accuracy"){//It is better to use accuracy after Fire, because final damage result = 5, in other way =4...
 			this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().accuracy_mode=accuracy_mode;
-			this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().Damage_ =this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().Damage_ + 1;
+			this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().damage =this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().damage + 1;
 		}
 		this.gameObject.transform.parent.transform.parent.gameObject.GetComponent<Buttons_Clicked>().addButton(this.gameObject.name);
 		this.gameObject.transform.parent.transform.parent.GetComponent<CircleCollider2D>().enabled=true;

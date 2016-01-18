@@ -26,8 +26,7 @@ public class KT_Controller : TowerController {
 	private bool firstime=true;
 	private int a=0;
 	//About knights
-	public int damage = 3;
-	public int life = 20;
+
 	public bool shield =false;
 
     [SerializeField]
@@ -131,7 +130,7 @@ public class KT_Controller : TowerController {
 	}
 
 
-	public void setDamage(){
+	public override void setDamage(){
 		if(master.getChildFrom("Knight1",this.gameObject)){
 			master.getChildFrom("Knight1",this.gameObject).GetComponent<Knights_Controller>().damage=damage;
 		}
@@ -143,7 +142,7 @@ public class KT_Controller : TowerController {
 		}
 	}
 
-	public void setShield(){
+	public override void setShield(){
 		shield = true;
 		if(master.getChildFrom("Knight1",this.gameObject)){
 			master.getChildFrom("Knight1",this.gameObject).GetComponent<Knights_Controller>().shield=true;
@@ -159,7 +158,7 @@ public class KT_Controller : TowerController {
 		}
 	}
 
-	public void Reset(){
+	public override void Reset(){
 		master.getChildFrom("TargetedZone",this.gameObject).transform.position = flag.transform.position;
 		if(enemies.Count>0){
 			for(int i=0; i<enemies.Count ;i++){
