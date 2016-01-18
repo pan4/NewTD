@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using FThLib;
 
-public class MiniKT_Controller : MonoBehaviour {
+public class MiniKT_Controller : TowerController {
 	//Public
 	public List<GameObject> enemies;
 	public Sprite lvl2;
@@ -121,8 +121,8 @@ public class MiniKT_Controller : MonoBehaviour {
 
 	//About list
 	void remove_null(){for(int i=0; i<enemies.Count ;i++){if(enemies[i]==null){enemies.RemoveAt(i);}}}
-	public void enemyAdd(GameObject other){enemies.Add (other);}
-	public void enemyRemove(string other){
+	public override void enemyAdd(GameObject other){enemies.Add (other);}
+	public override void enemyRemove(string other){
 		for(int i=0; i<enemies.Count ;i++){
 			if(enemies[i]!=null){
 				if(enemies[i].name==other){enemies.RemoveAt(i);}

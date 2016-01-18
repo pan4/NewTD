@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using FThLib;
 
-public class AT_Controller : MonoBehaviour {
+public class AT_Controller : TowerController {
 	//--Public
 	public List<GameObject> enemies;
 	public Sprite block;
@@ -148,8 +148,8 @@ public class AT_Controller : MonoBehaviour {
 	}
 
 	//--About enemy list
-	public void enemyAdd(GameObject other){enemies.Add (other);}
-	public void enemyRemove(string other){
+	public override void enemyAdd(GameObject other){enemies.Add (other);}
+	public override void enemyRemove(string other){
 		for(int i=0; i<enemies.Count ;i++){
 			if(enemies[i]!=null){
 				if(enemies[i].name==other){enemies.RemoveAt(i);}

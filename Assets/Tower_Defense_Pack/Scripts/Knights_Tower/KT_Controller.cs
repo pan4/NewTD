@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using FThLib;
 
-public class KT_Controller : MonoBehaviour {
+public class KT_Controller : TowerController {
 	//Public
 	public List<GameObject> enemies;
 	public Sprite lvl2;
@@ -29,6 +29,11 @@ public class KT_Controller : MonoBehaviour {
 	public int damage = 3;
 	public int life = 20;
 	public bool shield =false;
+
+    [SerializeField]
+    private string _unitPath = "Kt/Knight";
+    private const string _interface = "KT0";
+
 	// Use this for initialization
 	void OnMouseOver(){ 
 		if(!GameObject.Find("hand")){master.showHand (true);}
@@ -66,7 +71,7 @@ public class KT_Controller : MonoBehaviour {
 				GetComponent<CircleCollider2D>().enabled=true;
 			}
 			if (Input.GetMouseButtonDown(0)&&mouseover==true){
-				master.showInterface(this.gameObject.name,this.gameObject,zone.transform);
+				master.showInterface(_interface,this.gameObject,zone.transform);
 				GetComponent<CircleCollider2D>().enabled=false;
 				master.getChildFrom("zoneImg",this.gameObject).GetComponent<SpriteRenderer>().enabled=true;
 			}
@@ -227,7 +232,7 @@ public class KT_Controller : MonoBehaviour {
 
 	private void Instantiate_Knight(){
 		inprocess=false;
-		GameObject Knight = Instantiate(Resources.Load("Kt/Knight"), new Vector3(spawner.transform.position.x,spawner.transform.position.y,spawner.transform.position.y), Quaternion.identity)as GameObject;
+		GameObject Knight = Instantiate(Resources.Load(_unitPath), new Vector3(spawner.transform.position.x,spawner.transform.position.y,spawner.transform.position.y), Quaternion.identity)as GameObject;
 		Knight.transform.SetParent(this.gameObject.transform);
 		opening = true;
 		Knights_Controller KnightProperties = Knight.GetComponent<Knights_Controller>();
@@ -262,8 +267,8 @@ public class KT_Controller : MonoBehaviour {
 
 	//About list
 	void remove_null(){for(int i=0; i<enemies.Count ;i++){if(enemies[i]==null){enemies.RemoveAt(i);}}}
-	public void enemyAdd(GameObject other){enemies.Add (other);}
-	public void enemyRemove(string other){
+	public override void enemyAdd(GameObject other){enemies.Add (other);}
+	public override void enemyRemove(string other){
 		for(int i=0; i<enemies.Count ;i++){
 			if(enemies[i]!=null){
 				if(enemies[i].name==other){enemies.RemoveAt(i);}

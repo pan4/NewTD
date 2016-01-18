@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using FThLib;
 //It contains the controller of mage in tower
-public class BombTowerController : MonoBehaviour
+public class BombTowerController : TowerController
 {
     //--Public
     public List<GameObject> enemies;
@@ -61,9 +61,9 @@ public class BombTowerController : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0) && mouseover == true)
             {
-                master.showInterface(this.gameObject.name, this.gameObject, zone.transform);
-                GetComponent<CircleCollider2D>().enabled = false;
-                master.getChildFrom("zoneImg", this.gameObject).GetComponent<SpriteRenderer>().enabled = true;
+                //master.showInterface(this.gameObject.name, this.gameObject, zone.transform);
+                //GetComponent<CircleCollider2D>().enabled = false;
+                //master.getChildFrom("zoneImg", this.gameObject).GetComponent<SpriteRenderer>().enabled = true;
             }
             remove_null();
             if (enemies.Count > 0)
@@ -92,16 +92,16 @@ public class BombTowerController : MonoBehaviour
             BomberShotAnimation(_bomberAnimator2);
             CatapultShotAnimation(_catapultAnimator, target);
             //Instantiate_Bullet(transform, enemies[enemies.Count - 1]);
-            StartCoroutine(StartBulletInstantiate());
+            StartCoroutine(StartBulletInstantiate(target.gameObject));
         }
         
     }
 
-    IEnumerator StartBulletInstantiate()
+    IEnumerator StartBulletInstantiate(GameObject target)
     {
         yield return new WaitForSeconds(0.5f);
-        if (enemies.Count != 0 && enemies[enemies.Count - 1] != null)
-            Instantiate_Bullet(transform, enemies[enemies.Count - 1]);
+
+        Instantiate_Bullet(transform, target);
     }
 
     private void BomberShotAnimation(Animator archer)
@@ -127,14 +127,14 @@ public class BombTowerController : MonoBehaviour
 
     private void Instantiate_Bullet(Transform spawner, GameObject target)
     {
-        GameObject Bullet = Instantiate(Resources.Load("BT/bomb"), spawner.position + Vector3.up * 0.5f, Quaternion.identity) as GameObject;
+        GameObject Bullet = Instantiate(Resources.Load("RT/bomb"), spawner.position + Vector3.up * 0.5f, Quaternion.identity) as GameObject;
         BombController BulletProperties = Bullet.GetComponent<BombController>();
         BulletProperties.Damage = Damage_;
         //############# Bullet properties --
         BulletProperties.target = target;
-        if (enemies[0] != null)
+        if (target != null)
         {
-            BulletProperties.maxLaunch = getminSpeed((int)master.angle_(spawner.transform.position, enemies[0].transform.position));
+            BulletProperties.maxLaunch = getminSpeed((int)master.angle_(spawner.transform.position, target.gameObject.transform.position), target);
         }
         else
         {
@@ -145,18 +145,18 @@ public class BombTowerController : MonoBehaviour
         BulletProperties.fire = fire;
         Bullet.name = "bomb";
     }
-    private float getminSpeed(int angle)
+    private float getminSpeed(int angle, GameObject target)
     {
         float aux = 0.1f;
-        while (moreSpeed(aux) == true) { aux = aux + searchvalue; }
+        while (moreSpeed(aux, target) == true) { aux = aux + searchvalue; }
         return aux;
     }
 
-    private bool moreSpeed(float speed)
+    private bool moreSpeed(float speed, GameObject target)
     {
         bool aux = false;
-        float xTarget = enemies[0].transform.position.x;
-        float yTarget = enemies[0].transform.position.y;
+        float xTarget = target.transform.position.x;
+        float yTarget = target.transform.position.y;
         float xCurrent = transform.position.x;
         float yCurrent = transform.position.y;
         float xDistance = Math.Abs(xTarget - xCurrent);
@@ -170,8 +170,8 @@ public class BombTowerController : MonoBehaviour
     }
 
     //--About enemy list
-    public void enemyAdd(GameObject other) { enemies.Add(other); }
-    public void enemyRemove(string other)
+    public override void enemyAdd(GameObject other) { enemies.Add(other); }
+    public override void enemyRemove(string other)
     {
         for (int i = 0; i < enemies.Count; i++)
         {
