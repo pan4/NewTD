@@ -1,4 +1,5 @@
 ﻿using FThLib;
+using System.Collections;
 using UnityEngine;
 
 public class CannonController : DefenderController
@@ -23,7 +24,8 @@ public class CannonController : DefenderController
     private float healingdelay = 2f;//Change it for fast healing
     private int healingvalue = 1;
     private Vector3 auxbar = new Vector3(0, 0, 0);
-
+    private Transform _bulletSpawnPos;
+    CannonTowerController _towerController;
     // Use this for initialization
     void Start()
     {
@@ -44,6 +46,8 @@ public class CannonController : DefenderController
 
         _animator.SetBool("dead", false);
         _animator.SetBool("attack", false);
+        _bulletSpawnPos = transform.FindChild("CannonBallSpawner");
+        _towerController = transform.parent.GetComponent<CannonTowerController>();
     }
 
     // Update is called once per frame
@@ -68,7 +72,8 @@ public class CannonController : DefenderController
                     if (patchPos != patchCustomPos)
                     {
                         //needFlip(customPos);
-                        SetDirectin(customPos, "walk");
+                        SetDirectin(customPos);
+                        _animator.SetBool("walk", true);
                         transform.position = Vector2.MoveTowards(patchPos, patchCustomPos, Time.deltaTime / 3);
                         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.y);
                     }
@@ -94,15 +99,16 @@ public class CannonController : DefenderController
                             if (patchPos != patchCustomPos_)
                             {
                                 //needFlip(rightp.transform.position);
-                                SetDirectin(rightp.transform.position, "walk");
+                                SetDirectin(rightp.transform.position);
+                                _animator.SetBool("walk", true);
                                 transform.position = Vector2.MoveTowards(patchPos, patchCustomPos_, Time.deltaTime / 3);
                                 this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.y);
                             }
                             else
                             {
                                 //needFlip(target.transform.position);
-                                SetDirectin(target.transform.position, "walk");
-
+                                SetDirectin(target.transform.position);
+                                _animator.SetBool("walk", true);
                                 _animator.SetBool("walk", false);
                                 move = false;
                             }
@@ -111,7 +117,10 @@ public class CannonController : DefenderController
                                 //SetDirectin(target.transform.position, "attack");
                                 _animator.SetBool("attack", true);
                                 Attack = true;
-                                Invoke("enemyreduceLife", 0.1f);
+                                //int index = _towerController.enemies.Count - 1;
+                                //SetDirectin(_towerController.enemies[index].transform.position);
+                                //if (_towerController.enemies[index] != null)
+                                StartCoroutine(InstantiateBullet(_bulletSpawnPos, target.transform, 0.1f));
                                 Invoke("attack_delay", delay);
                             }
                         }
@@ -192,13 +201,23 @@ public class CannonController : DefenderController
         }
     }
 
-    private void enemyreduceLife()
+    //private void enemyreduceLife()
+    //{
+    //    if (target != null)
+    //    {
+    //        Enemies_Controller properties = target.GetComponent<Enemies_Controller>();
+    //        properties.reduceLife(damage);
+    //    }
+    //}
+
+    private IEnumerator InstantiateBullet(Transform spawnPoint, Transform target, float delay)
     {
-        if (target != null)
-        {
-            Enemies_Controller properties = target.GetComponent<Enemies_Controller>();
-            properties.reduceLife(damage);
-        }
+        yield return new WaitForSeconds(delay);             
+        GameObject Bullet = Instantiate(Resources.Load("CT/CannonBall"), spawnPoint.position, Quaternion.identity) as GameObject;
+        CannonBallController bulletController = Bullet.GetComponent<CannonBallController>();
+        bulletController.Target = target;
+        bulletController.Damage = damage;
+        Bullet.name = "CannonBall";
     }
 
     private void attack_delay() { Attack = false; }
@@ -220,12 +239,12 @@ public class CannonController : DefenderController
         transform.localScale = theScale;
     }
 
-    private void SetDirectin(Vector3 dir, string animatorState)
+    private void SetDirectin(Vector3 dir)
     {
         Vector2 direction = (dir - transform.position).normalized;
         _animator.SetFloat("WalkDirectionX", direction.x);
         _animator.SetFloat("WalkDirectionY", direction.y);
-        _animator.SetBool(animatorState, true);
+        //_animator.SetBool(animatorState, true);
     }
 }
 
