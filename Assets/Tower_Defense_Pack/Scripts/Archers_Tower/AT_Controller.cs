@@ -5,8 +5,7 @@ using System;
 using FThLib;
 
 public class AT_Controller : TowerController {
-	//--Public
-	public List<GameObject> enemies;
+
 	public Sprite block;
 	//--Private
 	private GameObject zone=null;
@@ -55,7 +54,7 @@ public class AT_Controller : TowerController {
 					master.getChildFrom("zoneImg",this.gameObject).GetComponent<SpriteRenderer>().enabled=true;
 			}
 			remove_null();
-			if(enemies.Count>0){
+			if(EnemiesInZone.Count>0){
 				if(shot_==false){
 					shot_=true;
 					Invoke("shot",s_timer);
@@ -70,25 +69,25 @@ public class AT_Controller : TowerController {
     {
         shot_ = false;
 
-        if (enemies.Count == 0)
+        if (EnemiesInZone.Count == 0)
             return;
 
         if (_archersOrder % 2 == 0)
         {
-            if (enemies[enemies.Count - 1] != null)
+            if (EnemiesInZone[EnemiesInZone.Count - 1] != null)
             {
-                Transform target = enemies[enemies.Count - 1].transform;
+                Transform target = EnemiesInZone[EnemiesInZone.Count - 1].transform;
                 ShotAnimation(_archerAnimator1, target);
-                Instantiate_Bullet(_archerAnimator1.transform, enemies[enemies.Count - 1]);
+                Instantiate_Bullet(_archerAnimator1.transform, EnemiesInZone[EnemiesInZone.Count - 1]);
             }
         }
         else
         {
-            if (enemies[0] != null)
+            if (EnemiesInZone[0] != null)
             {
-                Transform target = enemies[0].transform;
+                Transform target = EnemiesInZone[0];
                 ShotAnimation(_archerAnimator2, target);
-                Instantiate_Bullet(_archerAnimator2.transform, enemies[0]);
+                Instantiate_Bullet(_archerAnimator2.transform, EnemiesInZone[0]);
             }
         }
     }
@@ -106,14 +105,14 @@ public class AT_Controller : TowerController {
     }
 
 
-	private void Instantiate_Bullet(Transform spawner, GameObject target){
+	private void Instantiate_Bullet(Transform spawner, Transform target){
         GameObject Bullet = Instantiate(Resources.Load("AT/arrow"), spawner.position, Quaternion.identity)as GameObject;
 		Parabolic_shot_Controller BulletProperties = Bullet.GetComponent<Parabolic_shot_Controller>();
 		Bullet.GetComponent<Damage>().Damage_ = damage;
 		//############# Bullet properties --
-		BulletProperties.target = target;
-		if(enemies[0]!=null){
-			BulletProperties.maxLaunch = getminSpeed((int)master.angle_(spawner.transform.position,enemies[0].transform.position));
+		BulletProperties.target = target.gameObject;
+		if(EnemiesInZone[0]!=null){
+			BulletProperties.maxLaunch = getminSpeed((int)master.angle_(spawner.transform.position, EnemiesInZone[0].transform.position));
 		}else{
 			Destroy(this.gameObject);
 		}
@@ -130,10 +129,11 @@ public class AT_Controller : TowerController {
 		return aux;
 	}
 
-	private bool moreSpeed(float speed){
+	private bool moreSpeed(float speed)
+    {
 		bool aux = false;
-		float xTarget = enemies[0].transform.position.x;
-		float yTarget = enemies[0].transform.position.y; 
+		float xTarget = EnemiesInZone[0].position.x;
+		float yTarget = EnemiesInZone[0].position.y; 
 		float xCurrent = transform.position.x;
 		float yCurrent = transform.position.y;
 		float xDistance = Math.Abs(xTarget - xCurrent);
@@ -145,16 +145,4 @@ public class AT_Controller : TowerController {
 		if(float.IsNaN(xSpeed)||float.IsNaN(ySpeed)){aux = true;}
 		return aux;
 	}
-
-	//--About enemy list
-	public override void enemyAdd(GameObject other){enemies.Add (other);}
-	public override void enemyRemove(string other){
-		for(int i=0; i<enemies.Count ;i++){
-			if(enemies[i]!=null){
-				if(enemies[i].name==other){enemies.RemoveAt(i);}
-			}
-		}
-	}
-	void remove_null(){for(int i=0; i<enemies.Count ;i++){if(enemies[i]==null){enemies.RemoveAt(i);}}}
-
 }

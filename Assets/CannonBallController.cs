@@ -18,7 +18,10 @@ public class CannonBallController : MonoBehaviour {
 
 	void Update ()
     {
-        transform.position = Vector3.MoveTowards(_transform.position, Target.position, Time.deltaTime * 4);
+        if(Target != null)
+            transform.position = Vector3.MoveTowards(_transform.position, Target.position, Time.deltaTime * 4);
+        else
+            Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D other)

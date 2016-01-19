@@ -13,13 +13,13 @@ public class Zone_Controller : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if(other.tag=="Respawn"){
-			Properties.enemyAdd(other.gameObject);
+			Properties.EnemyAdd(other.transform);
 		}
 
 	}
 	void OnTriggerExit2D(Collider2D other) {
 		if(other.tag=="Respawn"){
-			Properties.enemyRemove(other.gameObject.name);
+			Properties.EnemyRemove(other.transform);
 		}
 	}
 }

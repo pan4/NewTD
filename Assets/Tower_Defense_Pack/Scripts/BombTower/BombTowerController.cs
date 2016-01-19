@@ -6,8 +6,7 @@ using FThLib;
 //It contains the controller of mage in tower
 public class BombTowerController : TowerController
 {
-    //--Public
-    public List<GameObject> enemies;
+
     public Sprite block;
     //--Private
     private GameObject zone = null;
@@ -65,7 +64,7 @@ public class BombTowerController : TowerController
                 //master.getChildFrom("zoneImg", this.gameObject).GetComponent<SpriteRenderer>().enabled = true;
             }
             remove_null();
-            if (enemies.Count > 0)
+            if (EnemiesInZone.Count > 0)
             {
                 if (shot_ == false)
                 {
@@ -80,13 +79,13 @@ public class BombTowerController : TowerController
     {
         shot_ = false;
 
-        if (enemies.Count == 0)
+        if (EnemiesInZone.Count == 0)
             return;
 
 
-        if (enemies[enemies.Count - 1] != null)
+        if (EnemiesInZone[EnemiesInZone.Count - 1] != null)
         {
-            Transform target = enemies[enemies.Count - 1].transform;
+            Transform target = EnemiesInZone[EnemiesInZone.Count - 1].transform;
             BomberShotAnimation(_bomberAnimator1);
             BomberShotAnimation(_bomberAnimator2);
             CatapultShotAnimation(_catapultAnimator, target);
@@ -167,19 +166,4 @@ public class BombTowerController : TowerController
         if (float.IsNaN(xSpeed) || float.IsNaN(ySpeed)) { aux = true; }
         return aux;
     }
-
-    //--About enemy list
-    public override void enemyAdd(GameObject other) { enemies.Add(other); }
-    public override void enemyRemove(string other)
-    {
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            if (enemies[i] != null)
-            {
-                if (enemies[i].name == other) { enemies.RemoveAt(i); }
-            }
-        }
-    }
-    void remove_null() { for (int i = 0; i < enemies.Count; i++) { if (enemies[i] == null) { enemies.RemoveAt(i); } } }
-
 }

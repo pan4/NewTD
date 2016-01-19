@@ -5,8 +5,7 @@ using System;
 using FThLib;
 
 public class KT_Controller : TowerController {
-	//Public
-	public List<GameObject> enemies;
+
 	public Sprite lvl2;
 	public Sprite block;
 	//--Private
@@ -77,16 +76,16 @@ public class KT_Controller : TowerController {
 			if(inprocess==false){knightCall();}//progressbar included
 			doorisdoing();
 			remove_null();
-			if(enemies.Count>0){getEnemy();}//If enemy on area and no fighting, call a knight
+			if(EnemiesInZone.Count>0){getEnemy();}//If enemy on area and no fighting, call a knight
 		}
 	}
 
 	void getEnemy(){
-		for(int i=0; i<enemies.Count ;i++){
-			if(enemies[i]!=null){
-				PathFollower enemyProperties = enemies[i].GetComponent<PathFollower>();
+		for(int i=0; i< EnemiesInZone.Count ;i++){
+			if(EnemiesInZone[i]!=null){
+				PathFollower enemyProperties = EnemiesInZone[i].GetComponent<PathFollower>();
 				if (enemyProperties.fighting==false){
-					enemyProperties.target=getKnight(enemies[i]);
+					enemyProperties.target=getKnight(EnemiesInZone[i].gameObject);
 					if(enemyProperties.target!=null){//if get a knight set enemy to fighting
 						enemyProperties.fighting=true;
 					}else{
@@ -160,14 +159,14 @@ public class KT_Controller : TowerController {
 
 	public override void Reset(){
 		master.getChildFrom("TargetedZone",this.gameObject).transform.position = flag.transform.position;
-		if(enemies.Count>0){
-			for(int i=0; i<enemies.Count ;i++){
-				PathFollower enemyProperties = enemies[i].GetComponent<PathFollower>();
+		if(EnemiesInZone.Count>0){
+			for(int i=0; i< EnemiesInZone.Count ;i++){
+				PathFollower enemyProperties = EnemiesInZone[i].GetComponent<PathFollower>();
 				if (enemyProperties.fighting==true){
 					enemyProperties.target=null;
 					enemyProperties.fighting=false;
 				}
-				enemyRemove(enemies[i].name);
+				EnemyRemove(EnemiesInZone[i]);
 			}
 		}
 		if(master.getChildFrom("Knight1",this.gameObject)){
@@ -264,16 +263,7 @@ public class KT_Controller : TowerController {
 		go.transform.position = new Vector3(go.transform.position.x,go.transform.position.y,0f);
 	}
 
-	//About list
-	void remove_null(){for(int i=0; i<enemies.Count ;i++){if(enemies[i]==null){enemies.RemoveAt(i);}}}
-	public override void enemyAdd(GameObject other){enemies.Add (other);}
-	public override void enemyRemove(string other){
-		for(int i=0; i<enemies.Count ;i++){
-			if(enemies[i]!=null){
-				if(enemies[i].name==other){enemies.RemoveAt(i);}
-			}
-		}
-	}
+	
 	//###############--About door
 	private void doorisdoing(){
 		if(opening==true){

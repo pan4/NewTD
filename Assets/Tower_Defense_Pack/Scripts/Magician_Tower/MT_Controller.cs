@@ -5,8 +5,7 @@ using System;
 using FThLib;
 //It contains the controller of mage in tower
 public class MT_Controller : TowerController {
-	//--Public
-	public List<GameObject> enemies;
+
 	public Sprite block;
 	//public Sprite trapbtn;
 	//--Private
@@ -68,7 +67,7 @@ public class MT_Controller : TowerController {
 				master.getChildFrom("zoneImg",this.gameObject).GetComponent<SpriteRenderer>().enabled=true;
 			}
 			remove_null();
-			if(enemies.Count>0){
+			if(EnemiesInZone.Count>0){
 				if(shot_==false){
 					shot_=true;
 					Invoke("shot",s_timer);
@@ -79,9 +78,9 @@ public class MT_Controller : TowerController {
 	private void shot()
     {
 		shot_=false;        
-        if (enemies.Count > 0 && enemies[enemies.Count - 1] != null)
+        if (EnemiesInZone.Count > 0 && EnemiesInZone[EnemiesInZone.Count - 1] != null)
         {
-            Transform target = enemies[enemies.Count - 1].transform;
+            Transform target = EnemiesInZone[EnemiesInZone.Count - 1].transform;
             ShotAnimation(anim, target);
             Instantiate_Bullet(anim.transform, "Magic");
 		}
@@ -108,7 +107,7 @@ public class MT_Controller : TowerController {
 		GameObject Bullet = Instantiate(Resources.Load("MT/Mfire"), pos.position, Quaternion.identity)as GameObject;
 		MT_Bullet BulletProperties = Bullet.GetComponent<MT_Bullet>();
 		//############# Bullet properties --
-		BulletProperties.target = enemies[enemies.Count-1];
+		BulletProperties.target = EnemiesInZone[EnemiesInZone.Count-1].gameObject;
 		//BulletProperties.maxLaunch = getminSpeed((int)master.angle_(spawner.transform.position,enemies[0].transform.position));
 		//BulletProperties.accuracy_mode=accuracy_mode;
 		BulletProperties.fire = fire;
@@ -117,16 +116,7 @@ public class MT_Controller : TowerController {
 		Bullet.name=name;
 		//--
 	}
-	//--About enemy list
-	public override void enemyAdd(GameObject other){enemies.Add (other);}
-	public override void enemyRemove(string other){
-		for(int i=0; i<enemies.Count ;i++){
-			if(enemies[i]!=null){
-				if(enemies[i].name==other){enemies.RemoveAt(i);}
-			}
-		}
-	}
-	void remove_null(){for(int i=0; i<enemies.Count ;i++){if(enemies[i]==null){enemies.RemoveAt(i);}}}
+
 	void Flip(){//only mage
 		faceright=!faceright;
 		Vector3 theScale = mage.transform.localScale;
