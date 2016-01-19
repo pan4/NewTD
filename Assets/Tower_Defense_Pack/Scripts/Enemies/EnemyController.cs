@@ -3,7 +3,7 @@ using System.Collections;
 using FThLib;
 //Show blood when arrow..
 //Note, this gameobject has a child rightpoint, his position.z must be==knights.postion.z 
-public class Enemies_Controller : MonoBehaviour {
+public class EnemyController : MonoBehaviour {
 	//public
 	public int life=0;
 	public float attackDelay = 2f;

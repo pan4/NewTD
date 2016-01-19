@@ -78,36 +78,31 @@ public class Knights_Controller : DefenderController
 						enemyProperties.fighting=true;
 						GameObject rightp = master.getChildFrom("RightPoint",target);
 						GameObject leftp = master.getChildFrom("LeftPoint",target);
-						if(enemyProperties.faceright==true){//go to right point
-							Vector2 patchPos = new Vector2 (this.transform.position.x,this.transform.position.y);
-							Vector2 patchCustomPos_ = new Vector2 (rightp.transform.position.x,rightp.transform.position.y);
 
-							if(patchPos!=patchCustomPos_)
-                            {
-								//needFlip(rightp.transform.position);
-                                SetDirectin(rightp.transform.position, "walk");
-                                transform.position = Vector2.MoveTowards (patchPos, patchCustomPos_, Time.deltaTime/3);
-								this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y);
-							}else{
-								//needFlip(target.transform.position);
-                                SetDirectin(target.transform.position, "walk");
+						Vector2 patchPos = new Vector2 (this.transform.position.x,this.transform.position.y);
+						Vector2 patchCustomPos_ = new Vector2 (rightp.transform.position.x,rightp.transform.position.y);
 
-                                _animator.SetBool ("walk", false);
-								move=false;
-							}
-							if(move==false&&Attack==false){
-                                //SetDirectin(target.transform.position, "attack");
-                                _animator.SetBool ("attack", true);
-								Attack=true;
-								Invoke ("enemyreduceLife",0.1f);
-								Invoke ("attack_delay",delay);
-							}
+						if(patchPos!=patchCustomPos_)
+                        {
+							//needFlip(rightp.transform.position);
+                            SetDirectin(rightp.transform.position, "walk");
+                            transform.position = Vector2.MoveTowards (patchPos, patchCustomPos_, Time.deltaTime/3);
+							this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y);
 						}else{
-							if(transform.position != leftp.transform.position){
-							}else{
-								move=false;
-							}
+							//needFlip(target.transform.position);
+                            SetDirectin(target.transform.position, "walk");
+
+                            _animator.SetBool ("walk", false);
+							move=false;
 						}
+						if(move==false&&Attack==false){
+                            //SetDirectin(target.transform.position, "attack");
+                            _animator.SetBool ("attack", true);
+							Attack=true;
+							Invoke ("enemyreduceLife",0.1f);
+							Invoke ("attack_delay",delay);
+						}
+			
 					}else{
 						fighting=false;
 						move=false;
@@ -165,7 +160,7 @@ public class Knights_Controller : DefenderController
 
 	private void enemyreduceLife(){
 		if(target!=null){
-			Enemies_Controller properties = target.GetComponent<Enemies_Controller>();
+			EnemyController properties = target.GetComponent<EnemyController>();
 			properties.reduceLife(damage);
 		}
 	}

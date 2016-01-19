@@ -49,7 +49,7 @@ public class BombController : MonoBehaviour {
 
         foreach (Collider2D collider in hitColliders)
         {
-            Enemies_Controller enemyController = collider.GetComponent<Enemies_Controller>();
+            EnemyController enemyController = collider.GetComponent<EnemyController>();
             if (enemyController != null)
             {
                 float distance = Vector3.SqrMagnitude(collider.transform.position - transform.position);

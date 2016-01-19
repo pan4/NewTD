@@ -79,7 +79,7 @@ public class Master_Instance : MonoBehaviour {
 		GameObject Enemy = Instantiate(Resources.Load("Enemies/enemy" + type), new Vector3(spawner.transform.position.x+ Random.Range(-seed, seed),spawner.transform.position.y+ Random.Range(-seed, seed),spawner.transform.position.z), Quaternion.identity)as GameObject;
 		Enemy.transform.SetParent(this.gameObject.transform);
 		PathFollower EnemyPathProperties = Enemy.GetComponent<PathFollower>();
-		Enemies_Controller EnemyPropierties = Enemy.GetComponent<Enemies_Controller>();
+		EnemyController EnemyPropierties = Enemy.GetComponent<EnemyController>();
 		Enemy.name="Enemy" + count;
 		EnemyPathProperties.path = path;
 		EnemyPathProperties.speed = Enemyspeed;

@@ -36,7 +36,7 @@ public class Trap_Controller : MonoBehaviour {
 	}
 	private void enemyreduceLife(GameObject target){
 		if(target!=null){
-			Enemies_Controller properties = target.GetComponent<Enemies_Controller>();
+			EnemyController properties = target.GetComponent<EnemyController>();
 			properties.reduceLife(damage);
 		}
 	}

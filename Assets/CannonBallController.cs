@@ -29,7 +29,7 @@ public class CannonBallController : MonoBehaviour {
         if (other.gameObject.layer == LayerMask.NameToLayer("enemies") &&
             other.transform == Target)
         {
-            Enemies_Controller enemyController = other.GetComponent<Enemies_Controller>();
+            EnemyController enemyController = other.GetComponent<EnemyController>();
             enemyController.reduceLife(Damage);
             Destroy(gameObject);
         }           
