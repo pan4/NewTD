@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System;
 using FThLib;
 
-public class AT_Controller : TowerController {
+public class AT_Controller : TowerController
+{
 
 	public Sprite block;
 	//--Private
@@ -105,25 +106,30 @@ public class AT_Controller : TowerController {
     }
 
 
-	private void Instantiate_Bullet(Transform spawner, Transform target){
+	private void Instantiate_Bullet(Transform spawner, Transform target)
+    {
         GameObject Bullet = Instantiate(Resources.Load("AT/arrow"), spawner.position, Quaternion.identity)as GameObject;
 		Parabolic_shot_Controller BulletProperties = Bullet.GetComponent<Parabolic_shot_Controller>();
 		Bullet.GetComponent<Damage>().Damage_ = damage;
-		//############# Bullet properties --
-		BulletProperties.target = target.gameObject;
-		if(EnemiesInZone[0]!=null){
-			BulletProperties.maxLaunch = getminSpeed((int)master.angle_(spawner.transform.position, EnemiesInZone[0].transform.position));
-		}else{
-			Destroy(this.gameObject);
-		}
 
-		BulletProperties.accuracy_mode=accuracy_mode;
+		BulletProperties.target = target.gameObject;
+		if(target != null)        
+			BulletProperties.maxLaunch = getminSpeed((int)master.angle_(spawner.transform.position, target.transform.position));
+		else
+        {
+            Destroy(Bullet);
+            return;
+        }
+
+        BulletProperties.accuracy_mode=accuracy_mode;
 		BulletProperties.fire = fire;
 		Bullet.name="Arrow";
 
         _archersOrder++;
 	}
-	private float getminSpeed(int angle){
+
+	private float getminSpeed(int angle)
+    {
 		float aux = 0.1f;
 		while(moreSpeed(aux)==true){aux = aux + searchvalue;}
 		return aux;

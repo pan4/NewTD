@@ -62,7 +62,6 @@ public class CannonController : DefenderController
         _towerController = transform.parent.GetComponent<CannonTowerController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!master.isFinish())

@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using FThLib;
 
-public class PathFollower : MonoBehaviour {
+public class PathFollower : MonoBehaviour
+{
 	public Transform[] path;
 	public float speed = 0f;
 	public int currentPoint = 0;
@@ -21,8 +22,6 @@ public class PathFollower : MonoBehaviour {
 	private float seed = 0.2f;
 
 	private float rand=0f;
-    //public int knights = 0;
-    // Use this for initialization
 
     Animator _animator;
     private Transform _rightPoin;
@@ -59,8 +58,8 @@ public class PathFollower : MonoBehaviour {
         _moveTarget.position = randomisedPath[currentPoint];
     }
 
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		if(!master.isFinish())
         {
 			if(fighting==false)
@@ -81,7 +80,6 @@ public class PathFollower : MonoBehaviour {
 
                 _animator.SetFloat("WalkDirectionX", direction.x);
                 _animator.SetFloat("WalkDirectionY", direction.y);
-
                 
                 _transform.position = Vector2.MoveTowards (_transform.position, _moveTarget.position, Time.deltaTime*speed);
 
@@ -108,8 +106,7 @@ public class PathFollower : MonoBehaviour {
                 
                     currentPoint++;
                     if(currentPoint < randomisedPath.Length)
-                        _moveTarget.position = randomisedPath[currentPoint];
-                    
+                        _moveTarget.position = randomisedPath[currentPoint];                    
                 }
 
                 if (pos == moveTargetPos && target != null)
@@ -137,9 +134,9 @@ public class PathFollower : MonoBehaviour {
     {
 		if(!GameObject.Find("GameOver"))
         {
-			GameObject GameOver = Instantiate(Resources.Load("Interface/GameOver"), new Vector3(0,0,0), Quaternion.identity)as GameObject;
+			GameObject GameOver = Instantiate(Resources.Load("Interface/GameOver"), new Vector3(0,0,0), Quaternion.identity) as GameObject;
 			GameOver.name="GameOver";
-			GameObject.Find("Instance_Point").GetComponent<Master_Instance>().Finish=true;
+			GameObject.Find("Instance_Point").GetComponent<Master_Instance>().Finish = true;
 			master.setGameOver();
 		}
 	}

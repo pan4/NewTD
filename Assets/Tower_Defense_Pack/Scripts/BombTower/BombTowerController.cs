@@ -136,7 +136,8 @@ public class BombTowerController : TowerController
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(Bullet);
+            return;
         }
 
         BulletProperties.accuracy_mode = accuracy_mode;

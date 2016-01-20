@@ -132,7 +132,7 @@ public class CannonTowerController : TowerController
                         _cannonController.Attacker = enemyProperties.transform;
                         enemyProperties.MoveTarget.position = enemyProperties.target.transform.position - Vector3.right * 0.4f;
                         return;
-                    }                    //enemyProperties.fighting = true;
+                    }                    
 
                 }
             }
