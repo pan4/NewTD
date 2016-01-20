@@ -16,7 +16,7 @@ public class PathFollower : MonoBehaviour {
 	private Text money;//Text on Canvas
 	private GameObject LifeBtn;//Button on Canvas
 	private GameObject MoneyBtn;//Button on Canvas
-	public Vector3[] custom;
+	private Vector3[] randomisedPath;
 	private bool Step=false;//in direction to target
 	private float seed = 0.2f;
 
@@ -27,6 +27,21 @@ public class PathFollower : MonoBehaviour {
     Animator _animator;
     private Transform _rightPoin;
 
+    private Transform _moveTarget = null;
+    public Transform MoveTarget
+    {
+        get
+        {
+            return _moveTarget;
+        }
+        set
+        {
+            _moveTarget = value;
+        }
+    }
+
+    private Transform _transform;
+
     void Start ()
     {
 		life = GameObject.Find("Life").GetComponent<Text>();
@@ -34,12 +49,14 @@ public class PathFollower : MonoBehaviour {
 		LifeBtn = GameObject.Find("Button");
         _animator = GetComponent<Animator>();
         _rightPoin = transform.FindChild("RightPoint");
-
+        _transform = transform;
 
         auxspeed = speed;
-        custom = new Vector3[path.Length];
+        randomisedPath = new Vector3[path.Length];
         RandomizePath();
-        
+
+        _moveTarget = new GameObject(name + "MoveTarget").transform;
+        _moveTarget.position = randomisedPath[currentPoint];
     }
 
 	// Update is called once per frame
@@ -59,37 +76,51 @@ public class PathFollower : MonoBehaviour {
 			}
 
             if (speed != 0f && auxfight == false)
-            {
-
-                Vector2 direction = (custom[currentPoint] - transform.position).normalized;
+            {              
+                Vector2 direction = (_moveTarget.position - _transform.position).normalized;
 
                 _animator.SetFloat("WalkDirectionX", direction.x);
                 _animator.SetFloat("WalkDirectionY", direction.y);
 
-                transform.position = Vector2.MoveTowards (transform.position, custom[currentPoint], Time.deltaTime*speed);
-				this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y);
-				Vector2 patchPos = new Vector2 (this.transform.position.x,this.transform.position.y);
-				Vector2 patchCustomPos = new Vector2 (custom[currentPoint].x,custom[currentPoint].y);
+                
+                _transform.position = Vector2.MoveTowards (_transform.position, _moveTarget.position, Time.deltaTime*speed);
 
-				if(patchPos == patchCustomPos)
+                Vector2 pos = new Vector2(_transform.position.x, _transform.position.y);
+                Vector2 moveTargetPos = new Vector2(_moveTarget.position.x, _moveTarget.position.y);
+                _transform.position = new Vector3(_transform.position.x, _transform.position.y, _transform.position.y);
+                if (pos == moveTargetPos && target == null)
                 {
-					if(path[currentPoint].gameObject.name=="End")
+                    if (path[currentPoint].gameObject.name == "End")
                     {
-						int value = int.Parse (life.text);
-						if(value>0)
+                        int value = int.Parse(life.text);
+                        if (value > 0)
                         {
-							Animator anim = LifeBtn.GetComponent<Animator>();
-							anim.Play("Size");
-							value--;
-							life.text = "" + value;
-						}else
+                            Animator anim = LifeBtn.GetComponent<Animator>();
+                            anim.Play("Size");
+                            value--;
+                            life.text = "" + value;
+                        }
+                        else
                         {
-							End();
-						}
-					}
-					currentPoint++;
-				}
-				if(currentPoint>=path.Length)
+                            End();
+                        }
+                    }
+                
+                    currentPoint++;
+                    if(currentPoint < randomisedPath.Length)
+                        _moveTarget.position = randomisedPath[currentPoint];
+                    
+                }
+
+                if (pos == moveTargetPos && target != null)
+                {
+                    direction = (target.transform.position - _moveTarget.position).normalized;
+                    _animator.SetFloat("WalkDirectionX", direction.x);
+                    _animator.SetFloat("WalkDirectionY", direction.y);
+                    auxfight = true;
+                }
+
+                if (currentPoint>=path.Length)
                 {
                     Destroy(this.gameObject);
                 }
@@ -142,10 +173,10 @@ public class PathFollower : MonoBehaviour {
         {
 			if(path[i].gameObject.name!="End")
             {
-				custom[i] = new Vector3(path[i].position.x + Random.Range(-seed, seed),path[i].position.y + Random.Range(-seed, seed),path[i].position.y);
+				randomisedPath[i] = new Vector3(path[i].position.x + Random.Range(-seed, seed),path[i].position.y + Random.Range(-seed, seed),path[i].position.y);
 			}else
             {
-				custom[i] = new Vector3(path[i].position.x ,path[i].position.y ,path[i].position.y);
+				randomisedPath[i] = new Vector3(path[i].position.x ,path[i].position.y ,path[i].position.y);
 			}
 		}
 	}

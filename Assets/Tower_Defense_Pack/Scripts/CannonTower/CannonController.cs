@@ -8,6 +8,7 @@ public class CannonController : DefenderController
     public int damage = 3;
     public GameObject flag = null;
     public Transform AttackTarget = null;
+    public Transform Attacker = null;
 
     public bool shield = false;
 
@@ -28,6 +29,13 @@ public class CannonController : DefenderController
     CannonTowerController _towerController;
 
     Transform _transform;
+    public Transform Transform
+    {
+        get
+        {
+            return _transform;
+        }
+    }
 
     void Start()
     {
@@ -99,7 +107,7 @@ public class CannonController : DefenderController
                 if (AttackTarget != null)
                 {
                     PathFollower ememyPathFollower = AttackTarget.GetComponent<PathFollower>();
-                    ememyPathFollower.fighting = true;
+                    //ememyPathFollower.fighting = true;
 
                     Transform rightp = AttackTarget.FindChild("RightPoint");
                     Transform leftp = AttackTarget.FindChild("LeftPoint");

@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour {
 	private float point=0f;
 	private GameObject lifebar = null;
 	private bool Attack = false;
-	private PathFollower properties_;
+	private PathFollower pathFollow;
 	private int damage=3;
 	private int auxlife=0;
 	private Animator anim;
@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour {
 		master.setLayer("enemies",this.gameObject);
 		lifebar = master.getChildFrom("Lifebar",this.gameObject);
 		getPoint();
-		properties_ = GetComponent<PathFollower>();
+		pathFollow = GetComponent<PathFollower>();
 		anim = this.gameObject.GetComponent<Animator> ();
 		anim.SetBool ("walk", false);
 		anim.SetBool ("dead", false);
@@ -50,22 +50,56 @@ public class EnemyController : MonoBehaviour {
 		if(!master.isFinish()){
 			if (anim.GetCurrentAnimatorStateInfo (0).IsName ("Attack")) {anim.SetBool ("attack", false);}
 			if(point!=0f&&auxlife==0){auxlife = life;}
-			if(properties_.auxfight==true){
-				anim.SetBool ("walk", false);
-				if(properties_.target!=null){
-                    DefenderController knight = properties_.target.GetComponent<DefenderController>();
-					if(knight.move==false&&Attack==false){//is near
-						Attack=true;
-						anim.SetBool ("attack", true);
-						Invoke ("enemyreduceLife",0.1f);
-						Invoke ("attack_delay",attackDelay);
-						knight.reduceLife(damage);
-					}
-				}
-			}else{
-				anim.SetBool ("walk", true);
-            }
-		}
+				
+			if(pathFollow.target!=null)
+            {
+
+                DefenderController defender = pathFollow.target.GetComponent<DefenderController>();
+                if (defender is Knights_Controller)
+                {
+                    if (pathFollow.auxfight == true)
+                    {
+                        anim.SetBool("walk", false);
+                        if (defender.move == false && Attack == false)
+                        {
+                            Attack = true;
+                            anim.SetBool("attack", true);
+                            Invoke("enemyreduceLife", 0.1f);
+                            Invoke("attack_delay", attackDelay);
+                            defender.reduceLife(damage);
+                        }
+                    }
+                    else
+                    {
+                        anim.SetBool("walk", true);
+                    }
+                }
+                else if(defender is CannonController)
+                {                    
+                    if (pathFollow.auxfight == true)
+                    {
+                        anim.SetBool("walk", false);
+                        if (defender.move == false && Attack == false)
+                        {
+                            Attack = true;
+                            anim.SetBool("attack", true);
+                            Invoke("enemyreduceLife", 0.1f);
+                            Invoke("attack_delay", attackDelay);
+                            defender.reduceLife(damage);
+                        }
+                    }
+                    //else
+                    //{
+                    //    if (Vector3.SqrMagnitude(transform.position - pathFollow.target.transform.position) < 1.5 * 1.5)
+                    //        pathFollow.MoveTarget.position = pathFollow.target.transform.position - Vector3.right * 0.4f;
+                    //    anim.SetBool("walk", true);
+                    //}
+
+                }
+			}
+            else
+                anim.SetBool("walk", true);
+        }
 	}
 
 	private void attack_delay(){Attack=false;}
@@ -92,8 +126,8 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	private void enemyreduceLife(){
-		if(properties_.target!=null){
-            DefenderController properties = properties_.target.GetComponent<DefenderController>();
+		if(pathFollow.target!=null){
+            DefenderController properties = pathFollow.target.GetComponent<DefenderController>();
 			properties.reduceLife(damage);
 		}
 	}

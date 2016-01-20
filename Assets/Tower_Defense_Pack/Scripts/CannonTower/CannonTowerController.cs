@@ -89,62 +89,55 @@ public class CannonTowerController : TowerController
 
             remove_null();
 
-            if (EnemiesInZone.Count > 0 && 
-                (_cannonController != null && _cannonController.AttackTarget == null))
+            if (EnemiesInZone.Count > 0 && _cannonController != null)
             {
-                GetEnemy();
+                if(_cannonController.AttackTarget == null)
+                    SetTargert();
+                if (_cannonController.Attacker == null)
+                    SetAttacker();
             }
 		}
 	}
 
-	void GetEnemy()
+	void SetTargert()
     {
 		for(int i=0; i < EnemiesInZone.Count; i++)
         {
 			if(EnemiesInZone[i] != null)
             {
-				PathFollower enemyProperties = EnemiesInZone[i].GetComponent<PathFollower>();
-				if (enemyProperties.fighting == false)
                 {
-                    //enemyProperties.target = getKnight(enemies[i]);
-                    GetCannon(EnemiesInZone[i]);
-     //               if (enemyProperties.target != null)
-     //               {
-					//	enemyProperties.fighting = true;
-					//}
-     //               else
-     //               {
-					//	enemyProperties.fighting = false;
-					//}
-				}
+                    if (_cannonController.AttackTarget == null)
+                    {
+                        _cannonController.AttackTarget = EnemiesInZone[i];
+                        return;
+                    }
+                }
 			}
 		}
-	}
+    }
 
-	GameObject GetCannon(Transform target)
+    private void SetAttacker()
     {
-		if(_transform.FindChild("Cannon") != null &&
-            CannonCanFight("Cannon", target))
+        for (int i = EnemiesInZone.Count - 1; i >= 0; i--)
         {
-            return _transform.FindChild("Cannon").gameObject;
-		}
-		return null;
-	}	
+            if (EnemiesInZone[i] != null)
+            {
+                PathFollower enemyProperties = EnemiesInZone[i].GetComponent<PathFollower>();
+                if (enemyProperties.fighting == false)
+                {
 
-	bool CannonCanFight(string name, Transform target)
-    {
-		bool result = false;
-		CannonController cannonController = master.getChildFrom(name,this.gameObject).GetComponent<CannonController>();
+                    if (Vector3.SqrMagnitude(_cannonController.Transform.position - enemyProperties.transform.position) < 1 * 1)
+                    {
+                        enemyProperties.target = _cannonController.Transform.gameObject;
+                        _cannonController.Attacker = enemyProperties.transform;
+                        enemyProperties.MoveTarget.position = enemyProperties.target.transform.position - Vector3.right * 0.4f;
+                        return;
+                    }                    //enemyProperties.fighting = true;
 
-        if (cannonController.AttackTarget == null)
-        {
-			cannonController.AttackTarget = target;
-			//cannonController.move = true;
-			result = true;
-		}
-
-		return result;
-	}
+                }
+            }
+        }
+    }
 
 	private void CannonCall()
     {
