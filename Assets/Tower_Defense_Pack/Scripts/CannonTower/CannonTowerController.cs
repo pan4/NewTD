@@ -238,7 +238,7 @@ public class CannonTowerController : TowerController
     public override void EnemyRemove(Transform enemy)
     {
         base.EnemyRemove(enemy);
-        if (_cannonController.AttackTarget == enemy)
+        if (_cannonController != null && _cannonController.AttackTarget == enemy)
             _cannonController.AttackTarget = null;
     }
 }

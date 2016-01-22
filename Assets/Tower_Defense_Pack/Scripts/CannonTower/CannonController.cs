@@ -114,6 +114,7 @@ public class CannonController : DefenderController
                     if (move == false && Attack == false)
                     {
                         SetDirectin(AttackTarget.transform.position);
+                        _animator.SetBool("walk", false);
                         _animator.SetBool("attack", true);
                         Attack = true;
                         StartCoroutine(InstantiateBullet(_bulletSpawnPos, AttackTarget.transform, 0.1f));
