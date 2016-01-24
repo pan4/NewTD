@@ -60,7 +60,6 @@ public class MT_Controller : TowerController {
 				master.getChildFrom("zoneImg",this.gameObject).GetComponent<SpriteRenderer>().enabled=false;
 				GetComponent<CircleCollider2D>().enabled=true;
 			}
-			if (anim.GetCurrentAnimatorStateInfo (0).IsName ("Attack")) {anim.SetBool ("attack", false);}
 			if (Input.GetMouseButtonDown(0)&&mouseover==true){
 				master.showInterface(this.gameObject.name,this.gameObject,zone.transform);
 				GetComponent<CircleCollider2D>().enabled=false;

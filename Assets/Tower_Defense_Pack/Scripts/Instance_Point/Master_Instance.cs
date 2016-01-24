@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using FThLib;
 
-public class Master_Instance : MonoBehaviour {
+public class Master_Instance : MonoBehaviour
+{
 	//To change the money when kill an enemy go to Enemies_Controller, change the value of moneyWhenKill
 	//Public
 	public int startWithMoney = 240;//Money when start
@@ -22,75 +23,51 @@ public class Master_Instance : MonoBehaviour {
 	public int MT_Fire_price = 120;
 	public bool Finish = false;
 	//Private
-	private float seed = 0.2f;
-	private Transform[] path;
-	private int path_size=0;
-	private GameObject spawner=null;
-	//Creature 
-	private int C1life = 20;
-	//Knight 
-	//private int k0life = 20;
-	private int count = 0;
+
 	private Text money;
-	//--About waves
-	private float callDelay = 1f;//Delay between enemies
-	private bool wavePlaying = false;
-	private bool waveAux = false;
-	private int waveCount = 0;
-	// Use this for initialization
-	void Start () {
-		path_size = getsize ();
+
+    public bool Playing = false;
+
+    void Start ()
+    {
 		money = GameObject.Find("Money").GetComponent<Text>();
 		addMoney(startWithMoney);
-		path = new Transform[path_size];
-		for (int i=0; i<path_size-1;i++){//Searching the points, the points must be named like: "a0,a1,a2,a3..."
-			path[i]=GameObject.Find("a" + i).transform;
-		}
-		path[path_size-1]=GameObject.Find("End").transform;
-		spawner = this.gameObject;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		if(Finish==false){
-			if (Input.GetKey(KeyCode.Escape)){if(GameObject.Find("Interface")){Destroy (GameObject.Find("Interface"));}}
-			if(Input.GetMouseButtonDown(0)){
-				if(GameObject.Find("Circle")==null&&GameObject.Find("flag_")==null&&GameObject.Find("hand")==null&&GameObject.Find("trap_")==null){
-					if(GameObject.Find("Interface")){Destroy (GameObject.Find("Interface"));}
+	void Update ()
+    {
+		if(Finish == false)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                Destroy(GameObject.Find("pressSpace"));
+                Playing = true;
+            }
+
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                if (GameObject.Find("Interface"))
+                {
+                    Destroy (GameObject.Find("Interface"));
+                }
+            }
+
+			if(Input.GetMouseButtonDown(0))
+            {
+				if(GameObject.Find("Circle") == null && GameObject.Find("flag_") == null && GameObject.Find("hand") == null && GameObject.Find("trap_") == null)
+                {
+					if(GameObject.Find("Interface"))
+                    {
+                        Destroy (GameObject.Find("Interface"));
+                    }
 				}
 			}
-			if(wavePlaying==true&&waveCount>0){
-				if(waveAux==false){
-					waveAux=true;
-					Invoke("Instantiate_Enemy",callDelay);
-				}
-			}
-			if(waveCount==0){wavePlaying=false;}
 		}
-	}
-
-	public void createWave(int enemiesNumber, int enemytype){//This pack only contains type 1
-		wavePlaying=true;
-		waveCount=enemiesNumber;
-	}
-
-	private void Instantiate_Enemy(){
-		int type = 1;
-		GameObject Enemy = Instantiate(Resources.Load("Enemies/enemy" + type), new Vector3(spawner.transform.position.x+ Random.Range(-seed, seed),spawner.transform.position.y+ Random.Range(-seed, seed),spawner.transform.position.z), Quaternion.identity)as GameObject;
-		Enemy.transform.SetParent(this.gameObject.transform);
-		PathFollower EnemyPathProperties = Enemy.GetComponent<PathFollower>();
-		EnemyController EnemyPropierties = Enemy.GetComponent<EnemyController>();
-		Enemy.name="Enemy" + count;
-		EnemyPathProperties.path = path;
-		EnemyPathProperties.speed = Enemyspeed;
-		EnemyPropierties.life = C1life;
-		count++;
-		waveAux = false;
-		waveCount--;
 	}
 	
 	//About money
-	public int getPrice(GameObject go){
+	public int getPrice(GameObject go)
+    {
 		int aux_ = 0;
 		if(go.name=="KT"||go.name=="KT0"){aux_=KT_price;}
 		if(go.name=="AT"||go.name=="AT0"){aux_=AT_price;}
@@ -103,24 +80,23 @@ public class Master_Instance : MonoBehaviour {
 		if(go.name=="Accuracy"){aux_=AT_Accuracy_price;}
 		return aux_;
 	}
-	public int countMoney(){return int.Parse (money.text);}
-	public void addMoney(int value){
+
+	public int countMoney()
+    {
+        return int.Parse (money.text);
+    }
+
+	public void addMoney(int value)
+    {
 		int valueaux = int.Parse (money.text);
 		valueaux = valueaux + value;
-		money.text = ""+valueaux;
-	}
-	public void removeMoney(int value){
-		int valueaux = int.Parse (money.text);
-		valueaux = valueaux - value;
-		money.text = ""+valueaux;
+		money.text = "" + valueaux;
 	}
 
-	int getsize(){
-		int i = 0;
-		while(GameObject.Find("a" + i)){
-			i++;
-		}
-		i++;//end point
-		return i;
+	public void removeMoney(int value)
+    {
+		int valueaux = int.Parse (money.text);
+		valueaux = valueaux - value;
+		money.text = "" + valueaux;
 	}
 }

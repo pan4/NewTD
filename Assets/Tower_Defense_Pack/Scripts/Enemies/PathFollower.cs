@@ -54,7 +54,9 @@ public class PathFollower : MonoBehaviour
         randomisedPath = new Vector3[path.Length];
         RandomizePath();
 
+
         _moveTarget = new GameObject(name + "MoveTarget").transform;
+        _moveTarget.parent = _transform.parent;
         _moveTarget.position = randomisedPath[currentPoint];
     }
 
