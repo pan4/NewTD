@@ -9,8 +9,6 @@
 //
 // Copyright (c) 2014 Alexander Panchenko
 
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 using AppsMinistry.Core.Input;
@@ -38,41 +36,48 @@ namespace Slugterra.UI.Game.Camera
 		private Vector3 _basePosition;
 
 		[SerializeField]
-		private float _minZoom = 30;
+		private float _minZoom = 2;
 		[SerializeField]
-		private float _maxZoom = 60;
+		private float _maxZoom = 3;
 		private float _zoom;
-
-		[SerializeField]
-		private float _minHeight = 8;
-		[SerializeField]
-		private float _maxHeight = 12;
-		private float _height;
 
 		[SerializeField]
 		private Vector4 _bounds = new Vector4(-8f, 1f, 18f, 7f);
 
 		private bool isLocked = false;
 
-		private void Start()
+        private UnityEngine.Camera _camera;
+        private float _windowaspect;
+        private float _widthSize;
+        private float _pixelToUnitX;
+        private float _pixelToUnitY;
+
+        private void Start()
 		{
 			_cameraTransform = transform;
-
-			_zoom = _maxZoom;
-			_height = _maxHeight;
-
 			_cameraTransform.position = new Vector3(0, 0, -10);
-
-			//Vector3 initialPosition = Vector3.zero;			
-			//initialPosition = new Vector3(initialPosition.x + 2, _height, initialPosition.z - 12.4f);				
-			//initialPosition.x = Mathf.Clamp(initialPosition.x, _bounds.x, _bounds.z);
-			//initialPosition.y = Mathf.Clamp(initialPosition.y, _bounds.y, _bounds.w);				
-			//_cameraTransform.position = initialPosition;
 
 			_basePosition = _cameraTransform.position;
 
 			_offset = Vector3.zero;
-		}
+
+            _camera = GetComponent<UnityEngine.Camera>();
+            _windowaspect = (float)Screen.width / (float)Screen.height;
+            _widthSize = _camera.orthographicSize * _windowaspect;
+            SetBounds();
+
+            _camera.orthographicSize = _maxZoom;
+
+            _pixelToUnitX = _widthSize * 2 / (float)Screen.width;
+            _pixelToUnitY = _camera.orthographicSize * 2 / (float)Screen.height;
+        }
+
+        private void SetBounds()        {
+
+            float borderX = (10.6f - _widthSize * 2) / 2;
+            float borderY = (9 - _camera.orthographicSize * 2) / 2;
+            _bounds = new Vector4(-borderX, -borderY, borderX, borderY);
+        }
 
 		private void OnEnable()
 		{
@@ -96,16 +101,23 @@ namespace Slugterra.UI.Game.Camera
 			if (isLocked)
 				return;
 
-			_zoom -= zoom;
+			_zoom -= (zoom / 60f);
 			_zoom = Mathf.Clamp(_zoom, _minZoom, _maxZoom);
-			_height -= zoom / 5;
-			_height = Mathf.Clamp(_height, _minHeight, _maxHeight);
-		}
 
-		private void OnMove(Vector3 position)
+            _camera.orthographicSize = _zoom;
+            SetBounds();
+            float x = Mathf.Clamp(_cameraTransform.position.x, _bounds.x, _bounds.z);
+            float y = Mathf.Clamp(_cameraTransform.position.y, _bounds.y, _bounds.w);
+
+            _cameraTransform.position = new Vector3(x, y, -10f);
+        }
+
+        private void OnMove(Vector3 position)
 		{
 			if (isLocked)
 				return;
+
+            //Debug.Log(position);
 
 			if (_prevMovePos == Vector3.zero)
 			{
@@ -114,9 +126,14 @@ namespace Slugterra.UI.Game.Camera
 				_basePosition = _cameraTransform.position;
 			}
 
-			Vector3 delta = -(position - _prevMovePos);
-			_movement = new Vector3(delta.x, delta.y, 0);
-			_offset += (_movement * _sensitive);
+            //Vector3 delta = -(position - _prevMovePos);
+            //_movement = new Vector3(delta.x, delta.y, 0);
+            //_offset += (_movement * _sensitive);
+
+            float deltaX = _prevMovePos.x - position.x;
+            float deltaY = _prevMovePos.y - position.y;
+
+            _offset += new Vector3(deltaX * _pixelToUnitX, deltaY * _pixelToUnitY, 0);
 			_prevMovePos = position;
 		}
 
