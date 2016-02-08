@@ -52,6 +52,9 @@ namespace Slugterra.UI.Game.Camera
         private float _pixelToUnitX;
         private float _pixelToUnitY;
 
+        [SerializeField]
+        private TextMesh textMesh;
+
         private void Start()
 		{
 			_cameraTransform = transform;
@@ -84,7 +87,8 @@ namespace Slugterra.UI.Game.Camera
 			InputManager.Instance.OnTouch += OnMove;
 			InputManager.Instance.OnTouchEnd += OnTouchEnd;
 			InputManager.Instance.OnZoom += OnZoom;
-		}
+           // EasyTouch.On_PinchEnd -= On_PinchEnd;
+        }
 
 		private void OnDisable()
 		{
@@ -93,35 +97,57 @@ namespace Slugterra.UI.Game.Camera
 				InputManager.Instance.OnTouch -= OnMove;
 				InputManager.Instance.OnTouchEnd -= OnTouchEnd;
 				InputManager.Instance.OnZoom -= OnZoom;
-			}
+               // EasyTouch.On_PinchEnd -= On_PinchEnd;
+            }
 		}
 
-		private void OnZoom(float zoom)
+
+        float _zoomTimePassed = 0f;
+        private const float TOTAL_ZOOM_TIME = 5f;
+
+        private void OnZoom(float pinchDelta)
 		{
 			if (isLocked)
 				return;
 
-			_zoom -= (zoom / 60f);
+
+            _zoom -= pinchDelta * Time.deltaTime;
+	
 			_zoom = Mathf.Clamp(_zoom, _minZoom, _maxZoom);
 
-            _camera.orthographicSize = _zoom;
+            //_zoomTimePassed += Time.deltaTime;
+            //float t = _zoomTimePassed / TOTAL_ZOOM_TIME;
+
+            float velocity = 0;
+            _camera.orthographicSize = Mathf.SmoothDamp(_camera.orthographicSize, _zoom, ref velocity, 0.05f);
+
             SetBounds();
             float x = Mathf.Clamp(_cameraTransform.position.x, _bounds.x, _bounds.z);
             float y = Mathf.Clamp(_cameraTransform.position.y, _bounds.y, _bounds.w);
 
             _cameraTransform.position = new Vector3(x, y, -10f);
+
+            textMesh.text = "Zoom : " + _camera.orthographicSize.ToString();
         }
 
-        private void OnMove(Vector3 position)
+        //private void On_PinchEnd(Gesture gesture)
+        //{
+        //    _zoomTimePassed = 0f;
+        //}
+
+        private void OnMove(Gesture gesture)
 		{
 			if (isLocked)
 				return;
+
+            if (gesture.touchCount > 1)
+                return;
 
             //Debug.Log(position);
 
 			if (_prevMovePos == Vector3.zero)
 			{
-				_prevMovePos = position;
+				_prevMovePos = gesture.position;
 				_offset = Vector3.zero;
 				_basePosition = _cameraTransform.position;
 			}
@@ -130,11 +156,11 @@ namespace Slugterra.UI.Game.Camera
             //_movement = new Vector3(delta.x, delta.y, 0);
             //_offset += (_movement * _sensitive);
 
-            float deltaX = _prevMovePos.x - position.x;
-            float deltaY = _prevMovePos.y - position.y;
+            float deltaX = _prevMovePos.x - gesture.position.x;
+            float deltaY = _prevMovePos.y - gesture.position.y;
 
             _offset += new Vector3(deltaX * _pixelToUnitX, deltaY * _pixelToUnitY, 0);
-			_prevMovePos = position;
+			_prevMovePos = gesture.position;
 		}
 
 		private void OnTouchEnd(Vector3 position)

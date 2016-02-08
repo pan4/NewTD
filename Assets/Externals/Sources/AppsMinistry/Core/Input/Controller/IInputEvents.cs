@@ -13,7 +13,7 @@ namespace AppsMinistry.Core.Input
 		event Action<Vector3> OnDragEnd;
 	
 		event Action<Vector3> OnTouchStart;
-		event Action<Vector3> OnTouch;
+		event Action<Gesture> OnTouch;
 		event Action<Vector3> OnTap;
 		event Action<Vector3> OnTouchEnd;
 	

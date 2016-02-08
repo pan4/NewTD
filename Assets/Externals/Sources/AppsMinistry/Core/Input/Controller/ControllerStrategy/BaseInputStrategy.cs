@@ -17,7 +17,7 @@ namespace AppsMinistry.Core.Input.Strategy
 		public event Action<Vector3> OnDragEnd;
 	
 		public event Action<Vector3> OnTouchStart;
-		public event Action<Vector3> OnTouch;
+		public event Action<Gesture> OnTouch;
 		public event Action<Vector3> OnTap;
 		public event Action<Vector3> OnTouchEnd;
 	
@@ -121,10 +121,10 @@ namespace AppsMinistry.Core.Input.Strategy
 				OnTouchStart(position);
 		}
 		
-		protected void Use_OnTouchUpdate(Vector3 position)
+		protected void Use_OnTouchUpdate(Gesture gesture)
 		{
 			if(OnTouch != null)
-				OnTouch(position);
+				OnTouch(gesture);
 		}
 		
 		protected void Use_OnTouchEnd(Vector3 position)

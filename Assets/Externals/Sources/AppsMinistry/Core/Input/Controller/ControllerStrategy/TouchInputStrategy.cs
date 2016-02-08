@@ -155,7 +155,7 @@ namespace AppsMinistry.Core.Input.Strategy
 			if (IsEventEnabled(InputEvent.Press))
 			{
 				if(!_inputManager.IsTapOnIngnoreLayer(gesture.position))
-					Use_OnTouchUpdate(gesture.position);
+					Use_OnTouchUpdate(gesture);
 			}
 		}
 
@@ -187,7 +187,7 @@ namespace AppsMinistry.Core.Input.Strategy
 			if (!IsEventEnabled(InputEvent.Zoom))
 				return;
 
-			float zoom = -1.0f * Mathf.Lerp(1.0f, 10.0f, gesture.deltaPinch);
+			float zoom = -1.0f * gesture.deltaPinch;
 
 			Use_OnZoom(zoom);
 		}
@@ -198,7 +198,7 @@ namespace AppsMinistry.Core.Input.Strategy
 			if (!IsEventEnabled(InputEvent.Zoom))
 				return;
 
-			float zoom = Mathf.Lerp(1.0f, 10.0f, gesture.deltaPinch);
+			float zoom = gesture.deltaPinch;
 
 			Use_OnZoom(zoom);
 		}
