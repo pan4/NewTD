@@ -23,7 +23,7 @@ public class MiniKt_Button : MonoBehaviour {
 	}
 
 	void Start () {
-		masterPoint = GameObject.Find("Instance_Point").GetComponent<Master_Instance>();
+		masterPoint = GameObject.Find("Master_Instance").GetComponent<Master_Instance>();
 		aux = GetComponent<SpriteRenderer>().sprite;
 		master.setLayer("interface",this.gameObject);
 		this.gameObject.GetComponent<Animator>().SetBool ("on",on);

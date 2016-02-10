@@ -7,7 +7,7 @@
 
 --######### Important info about "Tower defense Basic pixel art Pack" if you want to use his scripts: ----------------
 
-Basically all important content is on "Example_Scene", when you press "space" the enemies waves appear on "Instance_Point".
+Basically all important content is on "Example_Scene", when you press "space" the enemies waves appear on "Master_Instance".
 *About the "hand" mouse cursor... you must know that: in the editor the "custom mouse cursors" can be seen not correctly but in the final .exe compiled project will work perfectly.
 *If you want to create a different path for enemies, see the tutorial here: "https://www.youtube.com/watch?v=AVhgq9JfewU"
 *If you want to create a different number of enemies and different number of waves, see the tutorial: "https://www.youtube.com/watch?v=xfk5RFGkzaY".
@@ -16,7 +16,7 @@ Basically all important content is on "Example_Scene", when you press "space" th
 to change it into de prefab, there are various images of the prices into "Basic/Prices" subfolder.
 *You have a image of the "basic prefabs structure" in "Tutorials_and_Info/InterfaceTree".
 *How to set my lives in scene, please see "Tutorials_and_Info/LivesValue.png", by default = 13.
-*To change the money when start: (public int "startWithMoney") into "Master_Instance.cs" on "Instance_Point" GameObject in the "Example_Scene".
+*To change the money when start: (public int "startWithMoney") into "Master_Instance.cs" on "Master_Instance" GameObject in the "Example_Scene".
 *If you need more characters for your Tower Defense games please visit my other packs at Unity Asset Store by searching "FreeThePlayerOnGame".
    -I especially recommend "http://u3d.as/hr6" and this "http://u3d.as/btK".
 *All prefabs are on "/Resources" subfolder.
@@ -91,11 +91,11 @@ to change it into de prefab, there are various images of the prices into "Basic/
         	-MTFire: Add a big ball of fire to the basic attack and Damage = 5;
         	-Trap: The mage can instantiate a trap, this trap decreases the enemy speed when hits and Damage=1.
         	
-"Instance_Point"--########################################
+"Master_Instance"--########################################
   -It contains the price of the towers and elements, create waves and create the path with points. If you want create a path with points please see the tutorial: "https://www.youtube.com/watch?v=AVhgq9JfewU"
   -It is the responsible of instantiate the enemies, you can change the enemy speed and life (private int "C1life") by default 20 in "Master_Instance.cs" script associated.
   -If you want to change the enemy damage and money when the enemy is killed... go to "Enemies_Controller.cs".
-  *-About "Instance_Point" and "Waves_Creator_Controller.cs" script associated:
+  *-About "Master_Instance" and "Waves_Creator_Controller.cs" script associated:
         -You must remember that the "Waves Index" value must be the same that "Enemies in Waves" array size and "Delay Between Waves" array size.
         -A quick example:
         	"Waves Index"=2, "Enemies in Waves"={3,2} , "Delay Between Waves"={10,0} [Note: Enemies in Waves.size = 2 and Delay Between Waves.size = 2]

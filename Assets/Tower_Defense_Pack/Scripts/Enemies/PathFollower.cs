@@ -138,7 +138,7 @@ public class PathFollower : MonoBehaviour
         {
 			GameObject GameOver = Instantiate(Resources.Load("Interface/GameOver"), new Vector3(0,0,0), Quaternion.identity) as GameObject;
 			GameOver.name="GameOver";
-			GameObject.Find("Instance_Point").GetComponent<Master_Instance>().Finish = true;
+			GameObject.Find("Master_Instance").GetComponent<Master_Instance>().Finish = true;
 			master.setGameOver();
 		}
 	}

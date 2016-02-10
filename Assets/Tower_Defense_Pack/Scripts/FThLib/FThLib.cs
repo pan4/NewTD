@@ -85,7 +85,7 @@ namespace FThLib {
 		public static void setGameOver(){//Disable all scripts
 			GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>() ;
 			foreach(GameObject go in allObjects){
-				if(go.name!="GameOver"&&go.tag!="Respawn"&&go.name!="Instance_Point"&&go.name!="Canvas"){//Disable all scripts except...
+				if(go.name!="GameOver"&&go.tag!="Respawn"&&go.name!="Master_Instance"&&go.name!="Canvas"){//Disable all scripts except...
 					if(go.layer != LayerMask.NameToLayer("UI")){
 						MonoBehaviour[] scripts = go.GetComponents<MonoBehaviour>();
 						foreach(MonoBehaviour script in scripts){script.enabled = false;}

@@ -12,7 +12,7 @@ public class Onclick_CP : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		parent_=this.gameObject.transform.parent.transform.parent.gameObject;
-		masterPoint = GameObject.Find("Instance_Point").GetComponent<Master_Instance>();
+		masterPoint = GameObject.Find("Master_Instance").GetComponent<Master_Instance>();
 		if(masterPoint.countMoney()<masterPoint.getPrice(this.gameObject)){master.isHide(this.gameObject);}//---------------------------------prices
 		aux = GetComponent<SpriteRenderer>().sprite;
 		master.setLayer("interface",this.gameObject);

@@ -4,7 +4,7 @@ using FThLib;
 
 public class EnemyController : MonoBehaviour {
 
-	public int life=0;
+	public float life = 0;
 	public float attackDelay = 2f;
 	public int moneyWhenKill = 20;
 
@@ -14,7 +14,7 @@ public class EnemyController : MonoBehaviour {
 	private bool Attack = false;
 	private PathFollower pathFollow;
 	private int damage=3;
-	private int auxlife=0;
+	private float auxlife = 0;
 	private Animator anim;
 
 
@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour {
 
 	private void Init()
     {
-		masterPoint = GameObject.Find("Instance_Point").GetComponent<Master_Instance>();
+		masterPoint = GameObject.Find("Master_Instance").GetComponent<Master_Instance>();
 		master.setLayer("enemies",this.gameObject);
 		lifebar = master.getChildFrom("Lifebar",this.gameObject);
 		getPoint();
@@ -39,14 +39,14 @@ public class EnemyController : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
     {
-		if(other.name=="Arrow")
-        {
-			reduceLife(other.GetComponent<Damage>().Damage_);
-		}
+		//if(other.name=="Arrow")
+  //      {
+		//	reduceLife(other.GetComponent<Damage>().Damage_);
+		//}
 		if(other.name=="Magic")
         {
 			GameObject blood = Instantiate(Resources.Load("Global/blood"), other.transform.position, Quaternion.identity)as GameObject;
-			reduceLife(other.GetComponent<MT_Bullet>().Damage_);
+			reduceLife(other.GetComponent<MT_Bullet>().Damage);
 		}
 	}
 
@@ -98,7 +98,7 @@ public class EnemyController : MonoBehaviour {
 		lifebar.transform.localScale = aux_;
 	}
 
-	public void reduceLife(int value)
+	public void reduceLife(float value)
     {
 		GameObject blood = Instantiate(Resources.Load("Global/blood"), this.transform.position, Quaternion.identity)as GameObject;
 		float aux = value * point;

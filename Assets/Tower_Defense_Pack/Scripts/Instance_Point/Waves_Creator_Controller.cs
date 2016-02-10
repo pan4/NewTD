@@ -32,7 +32,7 @@ public class Waves_Creator_Controller : MonoBehaviour
 
     void Start ()
     {
-		_masterInstance = GameObject.Find("Instance_Point").GetComponent<Master_Instance>();
+		_masterInstance = GameObject.Find("Master_Instance").GetComponent<Master_Instance>();
 		waves = GameObject.Find("Waves").GetComponent<Text>();
 		waves.text = wavesIndex + "/" + enemiesInWaves.Length;
         _movePathRoot = transform.FindChild("MovePath");

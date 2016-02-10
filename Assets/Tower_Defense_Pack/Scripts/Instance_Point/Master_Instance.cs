@@ -38,12 +38,6 @@ public class Master_Instance : MonoBehaviour
     {
 		if(Finish == false)
         {
-            if (Input.GetButtonDown("Jump"))
-            {
-                Destroy(GameObject.Find("pressSpace"));
-                Playing = true;
-            }
-
             if (Input.GetKey(KeyCode.Escape))
             {
                 if (GameObject.Find("Interface"))
@@ -64,6 +58,12 @@ public class Master_Instance : MonoBehaviour
 			}
 		}
 	}
+
+    public void OnPlay()
+    {
+        Destroy(GameObject.Find("pressSpace"));
+        Playing = true;
+    }
 	
 	//About money
 	public int getPrice(GameObject go)

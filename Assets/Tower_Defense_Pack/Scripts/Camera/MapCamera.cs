@@ -19,11 +19,6 @@ namespace Slugterra.UI.Game.Camera
 	[RequireComponent(typeof(UnityEngine.Camera))]
 	class MapCamera : MonoBehaviour
 	{
-		private const float HEIGHT = 12;
-
-		[SerializeField]
-		private float _sensitive = 0.016f;
-
 		[SerializeField]
 		private float _smoothTime = 0.05f;
 
@@ -31,7 +26,6 @@ namespace Slugterra.UI.Game.Camera
 
 		private Vector3 _prevMovePos;
 
-		private Vector3 _movement;
 		private Vector3 _offset;
 		private Vector3 _basePosition;
 
@@ -52,8 +46,8 @@ namespace Slugterra.UI.Game.Camera
         private float _pixelToUnitX;
         private float _pixelToUnitY;
 
-        [SerializeField]
-        private TextMesh textMesh;
+        //[SerializeField]
+        //private TextMesh textMesh;
 
         private void Start()
 		{
@@ -117,9 +111,7 @@ namespace Slugterra.UI.Game.Camera
 	
 			_zoom = Mathf.Clamp(_zoom, _minZoom, _maxZoom);
 
-
-            float velocity = 0;
-            
+            float velocity = 0;            
 
             float newOrthographicSize = Mathf.SmoothDamp(_camera.orthographicSize, _zoom, ref velocity, 0.1f);
             SetBounds(newOrthographicSize);
@@ -127,16 +119,16 @@ namespace Slugterra.UI.Game.Camera
             float x = Mathf.Clamp(_cameraTransform.position.x, _bounds.x, _bounds.z);
             float y = Mathf.Clamp(_cameraTransform.position.y, _bounds.y, _bounds.w);
 
-            float newPositionX = Mathf.SmoothDamp(_cameraTransform.position.x, x, ref _velocity.x, 0.01f);
+            _basePosition = _cameraTransform.position;
+            _offset = Vector3.zero;
+            _prevMovePos = Vector3.zero;
 
-            float newPositionY = Mathf.SmoothDamp(_cameraTransform.position.y, y, ref _velocity.y, 0.01f);
-
-            _cameraTransform.position = new Vector3(newPositionX, newPositionY, -10f);
+            _cameraTransform.position = new Vector3(x, y, -10f);
 
             _camera.orthographicSize = newOrthographicSize;
 
 
-            textMesh.text = "Zoom : " + _camera.orthographicSize.ToString();
+            //textMesh.text = "Zoom : " + _camera.orthographicSize.ToString();
         }
 
         private void On_PinchEnd(Gesture gesture)
@@ -152,8 +144,6 @@ namespace Slugterra.UI.Game.Camera
             if (gesture.touchCount > 1)
                 return;
 
-            //Debug.Log(position);
-
 			if (_prevMovePos == Vector3.zero)
 			{
 				_prevMovePos = gesture.position;
@@ -161,9 +151,6 @@ namespace Slugterra.UI.Game.Camera
 				_basePosition = _cameraTransform.position;
 			}
 
-            //Vector3 delta = -(position - _prevMovePos);
-            //_movement = new Vector3(delta.x, delta.y, 0);
-            //_offset += (_movement * _sensitive);
 
             float deltaX = _prevMovePos.x - gesture.position.x;
             float deltaY = _prevMovePos.y - gesture.position.y;
@@ -177,7 +164,6 @@ namespace Slugterra.UI.Game.Camera
 			if (isLocked)
 				return;
 
-			_movement = Vector3.zero;
 			_prevMovePos = Vector3.zero;
 		}
 
@@ -198,6 +184,35 @@ namespace Slugterra.UI.Game.Camera
 			float newPositionY = Mathf.SmoothDamp(_cameraTransform.position.y, cameraTarget.y, ref _velocity.y, _smoothTime);
 
 			_cameraTransform.position = new Vector3(newPositionX, newPositionY, -10f);
-		}
+
+#if UNITY_EDITOR
+            #region Wheel mouse zoom
+
+            float velocity = 0;
+            float newOrthographicSize = Mathf.SmoothDamp(_camera.orthographicSize, _zoom, ref velocity, 0.1f);
+            SetBounds(newOrthographicSize);
+
+            if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetAxis("Mouse ScrollWheel") < 0) 
+            {
+                if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                    _zoom += 0.2f;
+                else
+                    _zoom -= 0.2f;
+
+                _zoom = Mathf.Clamp(_zoom, _minZoom, _maxZoom);
+                _basePosition = _cameraTransform.position;
+                _offset = Vector3.zero;
+                _prevMovePos = Vector3.zero;
+
+            }
+
+            float x = Mathf.Clamp(_cameraTransform.position.x, _bounds.x, _bounds.z);
+            float y = Mathf.Clamp(_cameraTransform.position.y, _bounds.y, _bounds.w);
+            _cameraTransform.position = new Vector3(x, y, -10f);
+            _camera.orthographicSize = newOrthographicSize;
+
+            #endregion
+#endif
+        }
 	}
 }

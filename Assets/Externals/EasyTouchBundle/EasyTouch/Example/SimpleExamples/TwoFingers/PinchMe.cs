@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PinchMe : MonoBehaviour {
 
-	private TextMesh textMesh;
+
+    private TextMesh textMesh;
 	
 	// Subscribe to events
 	void OnEnable(){
