@@ -24,7 +24,8 @@ public class Parabolic_shot_Controller : MonoBehaviour {
         }
     }
 
-    void Start () {
+    void Start ()
+    {
 		sw=true;
 		master.setLayer("tower",this.gameObject);
 	}
