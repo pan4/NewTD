@@ -9,10 +9,17 @@ public class MT_Bullet : MonoBehaviour {
 	public float maxLaunch = 4;
 	public bool fire = false;
 	public bool ice = false;
-	public float Damage = 0;
-	//--Private
-	//private Master_Instance master;
-	private bool activated = false;
+    private float _damage = 5;
+    public float Damage
+    {
+        set
+        {
+            _damage = value;
+        }
+    }
+    //--Private
+    //private Master_Instance master;
+    private bool activated = false;
 	private bool sw =false;
 	private float launch_placey=0f;
 
@@ -33,11 +40,16 @@ public class MT_Bullet : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D coll) {
-		sw=false;
-		GetComponent<Rigidbody2D>().isKinematic=true;
-		GetComponent<Collider2D>().enabled=false;
-		Invoke("onDestroy",0);
+	void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.gameObject.layer == LayerMask.NameToLayer("enemies"))
+        {
+            sw = false;
+            GetComponent<Rigidbody2D>().isKinematic = true;
+            GetComponent<Collider2D>().enabled = false;
+            EnemyController enemyController = collider.GetComponent<EnemyController>();
+            enemyController.reduceLife(_damage);
+            Invoke("onDestroy", 0);
+        }
 	}
 
 	// Update is called once per frame

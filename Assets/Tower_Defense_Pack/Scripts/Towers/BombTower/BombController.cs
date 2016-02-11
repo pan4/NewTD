@@ -34,9 +34,13 @@ public class BombController : MonoBehaviour {
 		master.setLayer("tower",this.gameObject);
 	}
 	
-	void OnTriggerEnter2D(Collider2D coll) {
-        sw = false;        
-		onDestroy();
+	void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.layer == LayerMask.NameToLayer("enemies"))
+        {
+            sw = false;
+            onDestroy();
+        }
 	}
 	
     private void OnExplosion()

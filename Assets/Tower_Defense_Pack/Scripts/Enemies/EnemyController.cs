@@ -37,19 +37,6 @@ public class EnemyController : MonoBehaviour {
 		anim.SetBool ("attack", false);
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
-    {
-		//if(other.name=="Arrow")
-  //      {
-		//	reduceLife(other.GetComponent<Damage>().Damage_);
-		//}
-		if(other.name=="Magic")
-        {
-			GameObject blood = Instantiate(Resources.Load("Global/blood"), other.transform.position, Quaternion.identity)as GameObject;
-			reduceLife(other.GetComponent<MT_Bullet>().Damage);
-		}
-	}
-
 	void Update ()
     {
 		if(!master.isFinish())
