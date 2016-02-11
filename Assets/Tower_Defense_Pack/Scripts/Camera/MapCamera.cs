@@ -46,9 +46,6 @@ namespace Slugterra.UI.Game.Camera
         private float _pixelToUnitX;
         private float _pixelToUnitY;
 
-        //[SerializeField]
-        //private TextMesh textMesh;
-
         private void Start()
 		{
 			_cameraTransform = transform;
@@ -73,8 +70,8 @@ namespace Slugterra.UI.Game.Camera
         private void SetBounds(float hightSize)
         {
             _widthSize = hightSize * _windowaspect;
-            float borderX = (10.6f - _widthSize * 2) / 2;
-            float borderY = (9 - _camera.orthographicSize * 2) / 2;
+            float borderX = (10.4f - _widthSize * 2) / 2;
+            float borderY = (8.8f - _camera.orthographicSize * 2) / 2;
             _bounds = new Vector4(-borderX, -borderY, borderX, borderY);
         }
 
@@ -97,38 +94,18 @@ namespace Slugterra.UI.Game.Camera
             }
 		}
 
-
-        float _zoomTimePassed = 0f;
-        private const float TOTAL_ZOOM_TIME = 5f;
-
         private void OnZoom(float pinchDelta)
 		{
 			if (isLocked)
 				return;
 
-
             _zoom -= pinchDelta * Time.deltaTime;
 	
 			_zoom = Mathf.Clamp(_zoom, _minZoom, _maxZoom);
 
-            float velocity = 0;            
-
-            float newOrthographicSize = Mathf.SmoothDamp(_camera.orthographicSize, _zoom, ref velocity, 0.1f);
-            SetBounds(newOrthographicSize);
-
-            float x = Mathf.Clamp(_cameraTransform.position.x, _bounds.x, _bounds.z);
-            float y = Mathf.Clamp(_cameraTransform.position.y, _bounds.y, _bounds.w);
-
             _basePosition = _cameraTransform.position;
             _offset = Vector3.zero;
             _prevMovePos = Vector3.zero;
-
-            _cameraTransform.position = new Vector3(x, y, -10f);
-
-            _camera.orthographicSize = newOrthographicSize;
-
-
-            //textMesh.text = "Zoom : " + _camera.orthographicSize.ToString();
         }
 
         private void On_PinchEnd(Gesture gesture)
@@ -176,40 +153,49 @@ namespace Slugterra.UI.Game.Camera
 
 			Vector3 cameraTarget = _basePosition + _offset;
 
-			cameraTarget.x = Mathf.Clamp(cameraTarget.x, _bounds.x, _bounds.z);
-			cameraTarget.y = Mathf.Clamp(cameraTarget.y, _bounds.y, _bounds.w);
+            float x = Mathf.Clamp(_cameraTransform.position.x, _bounds.x, _bounds.z);
+            float y = Mathf.Clamp(_cameraTransform.position.y, _bounds.y, _bounds.w);
 
-			float newPositionX = Mathf.SmoothDamp(_cameraTransform.position.x, cameraTarget.x, ref _velocity.x, _smoothTime);
+            cameraTarget.x = Mathf.Clamp(cameraTarget.x, _bounds.x, _bounds.z);
+            cameraTarget.y = Mathf.Clamp(cameraTarget.y, _bounds.y, _bounds.w);
 
-			float newPositionY = Mathf.SmoothDamp(_cameraTransform.position.y, cameraTarget.y, ref _velocity.y, _smoothTime);
+            float newPositionX;
+            float newPositionY;
+
+            if (Mathf.Abs(_cameraTransform.position.x - x) < 0.01f && Mathf.Abs(_cameraTransform.position.y - y) < 0.01f)
+            {
+                newPositionX = Mathf.SmoothDamp(_cameraTransform.position.x, cameraTarget.x, ref _velocity.x, _smoothTime);
+                newPositionY = Mathf.SmoothDamp(_cameraTransform.position.y, cameraTarget.y, ref _velocity.y, _smoothTime);
+            }
+            else
+            {
+                newPositionX = Mathf.SmoothDamp(_cameraTransform.position.x, x, ref _velocity.x, 0.01f);
+                newPositionY = Mathf.SmoothDamp(_cameraTransform.position.y, y, ref _velocity.y, 0.01f);
+            }
 
 			_cameraTransform.position = new Vector3(newPositionX, newPositionY, -10f);
+
+            float velocity = 0;
+            float newOrthographicSize = Mathf.SmoothDamp(_camera.orthographicSize, _zoom, ref velocity, 0.2f);
+            SetBounds(newOrthographicSize);
+            _camera.orthographicSize = newOrthographicSize;
 
 #if UNITY_EDITOR
             #region Wheel mouse zoom
 
-            float velocity = 0;
-            float newOrthographicSize = Mathf.SmoothDamp(_camera.orthographicSize, _zoom, ref velocity, 0.1f);
-            SetBounds(newOrthographicSize);
-
             if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetAxis("Mouse ScrollWheel") < 0) 
             {
                 if (Input.GetAxis("Mouse ScrollWheel") > 0)
-                    _zoom += 0.2f;
+                    _zoom += 10 * Time.deltaTime;
                 else
-                    _zoom -= 0.2f;
+                    _zoom -= 10 * Time.deltaTime;
 
                 _zoom = Mathf.Clamp(_zoom, _minZoom, _maxZoom);
                 _basePosition = _cameraTransform.position;
                 _offset = Vector3.zero;
                 _prevMovePos = Vector3.zero;
 
-            }
-
-            float x = Mathf.Clamp(_cameraTransform.position.x, _bounds.x, _bounds.z);
-            float y = Mathf.Clamp(_cameraTransform.position.y, _bounds.y, _bounds.w);
-            _cameraTransform.position = new Vector3(x, y, -10f);
-            _camera.orthographicSize = newOrthographicSize;
+            }   
 
             #endregion
 #endif
