@@ -12,7 +12,7 @@ public class AT_Controller : TowerController
 	private GameObject zone=null;
 	private GameObject spawner=null;
 	public bool shot_ = false;
-	private bool mouseover=false;
+
 	private float searchvalue = 0.1f;// down value is best... but the performance may be affected (used to detect min speed to hit the enemy)
 	//Public properties
 	public float s_timer = 0.9f;
@@ -21,16 +21,6 @@ public class AT_Controller : TowerController
 
     private Animator _archerAnimator1;
     private Animator _archerAnimator2;
-
-    void OnMouseOver(){ 
-		if(!GameObject.Find("hand")){master.showHand (true);}
-		mouseover=true;
-	}
-
-	void OnMouseExit(){
-		if(GameObject.Find("hand")){master.showHand (false);}
-		mouseover=false;
-    }
 
 	void Start () {
 		this.transform.position = master.setThisZ(this.transform.position,0.02f);
@@ -43,17 +33,11 @@ public class AT_Controller : TowerController
     }
 
 	// Update is called once per frame
-	void Update () {
-		if(!master.isFinish()){
-			if(master.getChildFrom("Interface",this.gameObject)==null){
-				master.getChildFrom("zoneImg",this.gameObject).GetComponent<SpriteRenderer>().enabled=false;
-				GetComponent<CircleCollider2D>().enabled=true;
-			}
-			if (Input.GetMouseButtonDown(0)&&mouseover==true){
-					master.showInterface(this.gameObject.name,this.gameObject,zone.transform);
-					GetComponent<CircleCollider2D>().enabled=false;
-					master.getChildFrom("zoneImg",this.gameObject).GetComponent<SpriteRenderer>().enabled=true;
-			}
+	protected override void OnUpdate ()
+    {
+        base.OnUpdate();
+		if(!master.isFinish())
+        {
 			remove_null();
 			if(EnemiesInZone.Count>0){
 				if(shot_==false){

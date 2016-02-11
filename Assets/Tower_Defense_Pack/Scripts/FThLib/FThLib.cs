@@ -30,7 +30,7 @@ namespace FThLib {
 			GameObject interface_ = Instantiate(Resources.Load("Interface/"+ interfacename), GameObject.Find("Out").transform.position, Quaternion.identity)as GameObject;
 			interface_.name="Interface";
 			interface_.transform.SetParent(parent_.transform);
-			interface_.transform.position = new Vector3(pos.transform.position.x, pos.transform.position.y, pos.transform.position.y-3f);
+			interface_.transform.position = new Vector3(pos.transform.position.x, pos.transform.position.y + 0.1f, pos.transform.position.y-3f);
 		}
 		public static void showHand(bool value){//show hand cursor
 			if(value==true){

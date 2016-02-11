@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FThLib;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,6 +48,7 @@ public class TowerController : MonoBehaviour
     }
 
     public List<Transform> EnemiesInZone = new List<Transform>();
+    private bool _mouseover;
 
     public virtual void EnemyAdd(Transform enemy)
     {
@@ -79,6 +81,51 @@ public class TowerController : MonoBehaviour
             }
         }
     }
+
+    private void ShowInterface()
+    {
+        if (GameObject.Find("Interface"))
+        {
+            master.other_Interfaces_off();
+        }
+        GameObject towerInterface = Instantiate(Resources.Load("Interface/TowerInterface"), transform.position, Quaternion.identity) as GameObject;
+        towerInterface.transform.SetParent(transform);
+        towerInterface.name = "Interface";
+    }
+
+    protected virtual void OnUpdate() { }
+
+    private void Update()
+    {
+        if (!master.isFinish())
+        {
+            if (master.getChildFrom("Interface", this.gameObject) == null)
+            {
+                master.getChildFrom("zoneImg", this.gameObject).GetComponent<SpriteRenderer>().enabled = false;
+                GetComponent<CircleCollider2D>().enabled = true;
+            }
+            if (Input.GetMouseButtonDown(0) && _mouseover == true)
+            {
+                ShowInterface();
+                GetComponent<CircleCollider2D>().enabled = false;
+                master.getChildFrom("zoneImg", this.gameObject).GetComponent<SpriteRenderer>().enabled = true;
+            }
+        }
+        OnUpdate();
+    }
+
+    void OnMouseOver()
+    {
+        if (!GameObject.Find("hand")) { master.showHand(true); }
+        _mouseover = true;
+    }
+
+    void OnMouseExit()
+    {
+        if (GameObject.Find("hand")) { master.showHand(false); }
+        _mouseover = false;
+    }
+
 }
 
 
