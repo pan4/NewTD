@@ -7,6 +7,7 @@ public class TowerControllerEditor : Editor
 {
     private bool _damages;
     private bool _attackSpeedes;
+    private bool _sprites;
 
     public override void OnInspectorGUI()
     {

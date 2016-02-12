@@ -39,6 +39,10 @@ public class TowerController : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private List<Sprite> _sprites;
+
+
     protected void Init<T>(ref List<T> _list)
     {
         _list = new List<T>();
@@ -89,6 +93,7 @@ public class TowerController : MonoBehaviour
             master.other_Interfaces_off();
         }
         GameObject towerInterface = Instantiate(Resources.Load("Interface/TowerInterface"), transform.position, Quaternion.identity) as GameObject;
+        towerInterface.GetComponent<TowerMenuController>().SetTower(this);
         towerInterface.transform.SetParent(transform);
         towerInterface.name = "Interface";
     }
@@ -126,6 +131,13 @@ public class TowerController : MonoBehaviour
         _mouseover = false;
     }
 
+    public void Upgrade()
+    {
+        if (_level < MAX_TOWER_LEVEL)
+            _level++;
+
+        GetComponent<SpriteRenderer>().sprite = _sprites[_level];
+    }
 }
 
 

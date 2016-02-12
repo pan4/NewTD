@@ -52,7 +52,7 @@ public class Master_Instance : MonoBehaviour
                 {
 					if(GameObject.Find("Interface"))
                     {
-                        Destroy (GameObject.Find("Interface"));
+                        //Destroy (GameObject.Find("Interface"));
                     }
 				}
 			}
