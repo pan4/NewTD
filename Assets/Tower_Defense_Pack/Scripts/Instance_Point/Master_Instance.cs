@@ -52,7 +52,7 @@ public class Master_Instance : MonoBehaviour
                 {
 					if(GameObject.Find("Interface"))
                     {
-                        //Destroy (GameObject.Find("Interface"));
+                        Destroy (GameObject.Find("Interface"));
                     }
 				}
 			}
@@ -72,7 +72,12 @@ public class Master_Instance : MonoBehaviour
 		if(go.name=="KT"||go.name=="KT0"){aux_=KT_price;}
 		if(go.name=="AT"||go.name=="AT0"){aux_=AT_price;}
 		if(go.name=="MT"||go.name=="MT0"){aux_=MT_price;}
-		if(go.name=="Damage"){aux_=KT_Damage_price;}
+
+        if (go.name == "RT" || go.name == "RT0") { aux_ = KT_price; }
+        if (go.name == "CT" || go.name == "CT0") { aux_ = AT_price; }
+        if (go.name == "WT" || go.name == "WT0") { aux_ = MT_price; }
+
+        if (go.name=="Damage"){aux_=KT_Damage_price;}
 		if(go.name=="Life"){aux_=KT_Shield_price;}
 		if(go.name=="MTFire"){aux_=MT_Fire_price;}
 		if(go.name=="Fire"){aux_=AT_Fire_price;}

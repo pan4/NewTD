@@ -15,7 +15,6 @@ public class AT_Controller : TowerController
 
 	private float searchvalue = 0.1f;// down value is best... but the performance may be affected (used to detect min speed to hit the enemy)
 	//Public properties
-	public float s_timer = 0.9f;
 	public int accuracy_mode = 4;//Bassically it is used by the bullet, and add a force in direction to the target.
 	public bool fire = false;
 
@@ -42,7 +41,7 @@ public class AT_Controller : TowerController
 			if(EnemiesInZone.Count>0){
 				if(shot_==false){
 					shot_=true;
-					Invoke("shot",s_timer);
+					Invoke("shot", 1f / AttackSpeed[_level]);
 				}
 			}
 		}

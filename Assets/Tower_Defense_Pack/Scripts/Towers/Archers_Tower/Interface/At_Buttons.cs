@@ -69,7 +69,7 @@ public class At_Buttons : MonoBehaviour {
 			//this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().damage = damage;
 		}
 		if(this.gameObject.name=="Ratio"){
-			this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().s_timer=s_timer;
+			//this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().s_timer=s_timer;
 		}
 		if(this.gameObject.name=="Accuracy"){//It is better to use accuracy after Fire, because final damage result = 5, in other way =4...
 			this.gameObject.transform.parent.transform.parent.GetComponent<AT_Controller>().accuracy_mode=accuracy_mode;

@@ -97,7 +97,7 @@ namespace FThLib {
 
 		private static void Instantiate_CP(Transform pos){
 			Vector3 cpos = pos.position;
-			cpos.y = cpos.y - 0.1f;
+			cpos.y = cpos.y + 0.1f;
 			GameObject CP = Instantiate(Resources.Load("CP/CP"), cpos, Quaternion.identity)as GameObject;
 			CP.name="CP";
 		}

@@ -18,22 +18,12 @@ public class MT_Controller : TowerController {
 	private GameObject spawner1=null;
 	private GameObject spawner2=null;
 	private bool shot_ = false;
-	private bool mouseover=false;
+
 	//Public properties
-	public float s_timer = 0.9f;
 	public bool fire = false;
 	public bool ice = false;
 	public bool trap = false;
 
-	void OnMouseOver(){ 
-		if(!GameObject.Find("hand")){master.showHand (true);}
-		mouseover=true;
-	}
-	
-	void OnMouseExit(){
-		if(GameObject.Find("hand")){master.showHand (false);}
-		mouseover=false;
-	}
 	// Use this for initialization
 	void Start () {
 		Init ();
@@ -54,22 +44,15 @@ public class MT_Controller : TowerController {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected override void OnUpdate ()
+    {
+        base.OnUpdate();
 		if(!master.isFinish()){
-			if(master.getChildFrom("Interface",this.gameObject)==null&&!GameObject.Find("circle")){
-				master.getChildFrom("zoneImg",this.gameObject).GetComponent<SpriteRenderer>().enabled=false;
-				GetComponent<CircleCollider2D>().enabled=true;
-			}
-			if (Input.GetMouseButtonDown(0)&&mouseover==true){
-				master.showInterface(this.gameObject.name,this.gameObject,zone.transform);
-				GetComponent<CircleCollider2D>().enabled=false;
-				master.getChildFrom("zoneImg",this.gameObject).GetComponent<SpriteRenderer>().enabled=true;
-			}
 			remove_null();
 			if(EnemiesInZone.Count>0){
 				if(shot_==false){
 					shot_=true;
-					Invoke("shot",s_timer);
+					Invoke("shot",1 / AttackSpeed[_level]);
 				}
 			}
 		}

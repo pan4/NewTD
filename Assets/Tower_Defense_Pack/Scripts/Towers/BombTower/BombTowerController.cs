@@ -15,25 +15,12 @@ public class BombTowerController : TowerController
     private bool mouseover = false;
     private float searchvalue = 0.1f;// down value is best... but the performance may be affected (used to detect min speed to hit the enemy)
                                      //Public properties
-    public float s_timer = 0.9f;
     public int accuracy_mode = 4;//Bassically it is used by the bullet, and add a force in direction to the target.
     public bool fire = false;
 
     private Animator _bomberAnimator1;
     private Animator _bomberAnimator2;
     private Animator _catapultAnimator;
-
-    void OnMouseOver()
-    {
-        if (!GameObject.Find("hand")) { master.showHand(true); }
-        mouseover = true;
-    }
-
-    void OnMouseExit()
-    {
-        if (GameObject.Find("hand")) { master.showHand(false); }
-        mouseover = false;
-    }
 
     void Start()
     {
@@ -48,28 +35,18 @@ public class BombTowerController : TowerController
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void OnUpdate()
     {
+        base.OnUpdate();
         if (!master.isFinish())
         {
-            if (master.getChildFrom("Interface", this.gameObject) == null)
-            {
-                master.getChildFrom("zoneImg", this.gameObject).GetComponent<SpriteRenderer>().enabled = false;
-                GetComponent<CircleCollider2D>().enabled = true;
-            }
-            if (Input.GetMouseButtonDown(0) && mouseover == true)
-            {
-                //master.showInterface(this.gameObject.name, this.gameObject, zone.transform);
-                //GetComponent<CircleCollider2D>().enabled = false;
-                //master.getChildFrom("zoneImg", this.gameObject).GetComponent<SpriteRenderer>().enabled = true;
-            }
             remove_null();
             if (EnemiesInZone.Count > 0)
             {
                 if (shot_ == false)
                 {
                     shot_ = true;
-                    Invoke("shot", s_timer);
+                    Invoke("shot", 1 / AttackSpeed[_level]);
                 }
             }
         }
@@ -97,7 +74,7 @@ public class BombTowerController : TowerController
 
     IEnumerator StartBulletInstantiate(GameObject target)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
 
         Instantiate_Bullet(transform, target);
     }

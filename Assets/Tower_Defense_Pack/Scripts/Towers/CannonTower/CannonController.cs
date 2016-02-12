@@ -17,7 +17,7 @@ public class CannonController : DefenderController
     private GameObject lifebar = null;
     private bool isActive = false;
     private bool Attack = false;
-    private float delay = 1.5f;
+    public float AttackDelay = 1.5f;
     private int auxlife = 0;
     
     //About healing
@@ -118,7 +118,7 @@ public class CannonController : DefenderController
                         _animator.SetBool("attack", true);
                         Attack = true;
                         StartCoroutine(InstantiateBullet(_bulletSpawnPos, AttackTarget.transform, 0.1f));
-                        StartCoroutine(DeactivateAttack(delay));
+                        StartCoroutine(DeactivateAttack(AttackDelay));
                     }
                 }
                 else

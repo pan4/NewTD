@@ -9,18 +9,11 @@ public class KT_Controller : TowerController {
 	public Sprite lvl2;
 	public Sprite block;
 	//--Private
-	private int towerlvl = 0;
 	private float instancetime = 11f;//######################### get
-	private GameObject door=null;
-	private GameObject opened=null;
-	private GameObject closed=null;
 	private GameObject spawner=null;
 	private GameObject flag=null;
 	private GameObject zone=null;
-	private bool mouseover=false;
 	//--About door
-	private bool opening=false;
-	private bool closing=false;
 	private bool inprocess=false;
 	private bool firstime=true;
 	private int a=0;
@@ -33,24 +26,14 @@ public class KT_Controller : TowerController {
     private const string _interface = "KT0";
 
 	// Use this for initialization
-	void OnMouseOver(){ 
-		if(!GameObject.Find("hand")){master.showHand (true);}
-		mouseover=true;
-	}
-	
-	void OnMouseExit(){
-		if(GameObject.Find("hand")){master.showHand (false);}
-		mouseover=false;
-	}
+
 	void OnTriggerEnter2D(Collider2D coll) {
 		if(coll.name=="Knight1"||coll.name=="Knight2"||coll.name=="Knight3"){
 			StartCoroutine(setZ(coll.gameObject, 1f));
 		}
 	}
-	private void Init_(){
-		door = master.getChildFrom("door",this.gameObject);
-		opened = master.getChildFrom("opened",this.gameObject);
-		closed = master.getChildFrom("closed",this.gameObject);
+	private void Init_()
+    {
 		spawner = master.getChildFrom("spawner",this.gameObject);
 		flag = master.getChildFrom("flag",this.gameObject);
 		zone = master.getChildFrom("zone",this.gameObject);
@@ -62,19 +45,12 @@ public class KT_Controller : TowerController {
 		Init_();
 	}
 
-	void Update () {
-		if(!master.isFinish()){
-			if(master.getChildFrom("Interface",this.gameObject)==null&&!GameObject.Find("circle")){
-				master.getChildFrom("zoneImg",this.gameObject).GetComponent<SpriteRenderer>().enabled=false;
-				GetComponent<CircleCollider2D>().enabled=true;
-			}
-			if (Input.GetMouseButtonDown(0)&&mouseover==true){
-				master.showInterface(_interface,this.gameObject,zone.transform);
-				GetComponent<CircleCollider2D>().enabled=false;
-				master.getChildFrom("zoneImg",this.gameObject).GetComponent<SpriteRenderer>().enabled=true;
-			}
+	protected override void OnUpdate ()
+    {
+        base.OnUpdate();
+		if(!master.isFinish())
+        {
 			if(inprocess==false){knightCall();}//progressbar included
-			doorisdoing();
 			remove_null();
 			if(EnemiesInZone.Count>0){getEnemy();}//If enemy on area and no fighting, call a knight
 		}
@@ -141,7 +117,23 @@ public class KT_Controller : TowerController {
 		}
 	}
 
-	public override void setShield(){
+    public override void SetAttackSpeed()
+    {
+        if (master.getChildFrom("Knight1", this.gameObject))
+        {
+            master.getChildFrom("Knight1", this.gameObject).GetComponent<Knights_Controller>().AttackDelay = 1f / AttackSpeed[_level];
+        }
+        if (master.getChildFrom("Knight2", this.gameObject))
+        {
+            master.getChildFrom("Knight2", this.gameObject).GetComponent<Knights_Controller>().AttackDelay = 1f / AttackSpeed[_level];
+        }
+        if (master.getChildFrom("Knight3", this.gameObject))
+        {
+                master.getChildFrom("Knight3", this.gameObject).GetComponent<Knights_Controller>().AttackDelay = 1f / AttackSpeed[_level];
+        }
+    }
+
+    public override void setShield(){
 		shield = true;
 		if(master.getChildFrom("Knight1",this.gameObject)){
 			master.getChildFrom("Knight1",this.gameObject).GetComponent<Knights_Controller>().shield=true;
@@ -232,13 +224,13 @@ public class KT_Controller : TowerController {
 		inprocess=false;
 		GameObject Knight = Instantiate(Resources.Load(_unitPath), new Vector3(spawner.transform.position.x,spawner.transform.position.y,spawner.transform.position.y), Quaternion.identity)as GameObject;
 		Knight.transform.SetParent(this.gameObject.transform);
-		opening = true;
 		Knights_Controller KnightProperties = Knight.GetComponent<Knights_Controller>();
 		KnightProperties.flag=flag;
 		KnightProperties.life=life;
 		KnightProperties.shield = shield;
 		KnightProperties.damage = Damage[_level];
-		Knight.name=getKnightName();
+        KnightProperties.AttackDelay = 1f / AttackSpeed[_level];
+        Knight.name=getKnightName();
 	}
 
 	private string getKnightName(){
@@ -263,35 +255,8 @@ public class KT_Controller : TowerController {
 		go.transform.position = new Vector3(go.transform.position.x,go.transform.position.y,0f);
 	}
 
-	
-	//###############--About door
-	private void doorisdoing(){
-		if(opening==true){
-			getOpen (0);
-		}else{
-			if(closing==true){getOpen(1);}
-		}
-	}	
-	private void getOpen(int value){//0 open, 1 close
-		switch(value){
-		case 0:
-			if(door.transform.position != opened.transform.position){
-				door.transform.position = Vector3.MoveTowards(door.transform.position, opened.transform.position, Time.deltaTime/4);
-			}else{
-				opening=false;
-				Invoke("setclosing",2);
-			}
-			break;
-		case 1:
-			if(door.transform.position != closed.transform.position){
-				door.transform.position = Vector3.MoveTowards(door.transform.position, closed.transform.position, Time.deltaTime/4);
-			}else{
-				closing=false;
-			}
-			break;
-		}
-	}
-	private void setFlagZ(){master.getChildFrom("flag",this.gameObject).transform.position=new Vector3(master.getChildFrom("flag",this.gameObject).transform.position.x,master.getChildFrom("flag",this.gameObject).transform.position.y,master.getChildFrom("flag",this.gameObject).transform.position.y+0.2f);}
-	private void setclosing(){closing=true;}
-	//--End about door
+	private void setFlagZ()
+    {
+        master.getChildFrom("flag",this.gameObject).transform.position=new Vector3(master.getChildFrom("flag",this.gameObject).transform.position.x,master.getChildFrom("flag",this.gameObject).transform.position.y,master.getChildFrom("flag",this.gameObject).transform.position.y+0.2f);
+    }
 }

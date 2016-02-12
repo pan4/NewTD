@@ -18,7 +18,9 @@ public class Knights_Controller : DefenderController
 	private GameObject lifebar = null;
 	private bool isActive=false;
 	private bool Attack = false;
-	private float delay = 3f;
+
+    public float AttackDelay = 3f;
+
 	private int auxlife=0;
 	//About healing
 	private bool healing = false;
@@ -100,7 +102,7 @@ public class Knights_Controller : DefenderController
                             _animator.SetBool ("attack", true);
 							Attack=true;
 							Invoke ("enemyreduceLife",0.1f);
-							Invoke ("attack_delay",delay);
+							Invoke ("attack_delay",AttackDelay);
 						}
 			
 					}else{

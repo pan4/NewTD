@@ -1,4 +1,5 @@
-﻿using FThLib;
+﻿using AppsMinistry.Core.Input;
+using FThLib;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,15 @@ public class TowerController : MonoBehaviour
     public int life = 20;
 
     public const int MAX_TOWER_LEVEL = 3;
+
     protected int _level = 0;
+    public int Level
+    {
+        get
+        {
+            return _level;
+        }
+    }
 
     [SerializeField]
     [HideInInspector]
@@ -54,6 +63,21 @@ public class TowerController : MonoBehaviour
     public List<Transform> EnemiesInZone = new List<Transform>();
     private bool _mouseover;
 
+    private void Awake()
+    {
+        GetComponent<SpriteRenderer>().sprite = _sprites[_level];
+    }
+
+    private void OnEnable()
+    {
+        InputManager.Instance.OnTouchEnd += HideInterface;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.Instance.OnTouchEnd -= HideInterface;
+    }
+
     public virtual void EnemyAdd(Transform enemy)
     {
         EnemiesInZone.Add(enemy);
@@ -73,6 +97,7 @@ public class TowerController : MonoBehaviour
 
     public virtual void Reset() { }
     public virtual void setDamage() { }
+    public virtual void SetAttackSpeed() { }
     public virtual void setShield() { }
 
     protected void remove_null()
@@ -95,8 +120,22 @@ public class TowerController : MonoBehaviour
         GameObject towerInterface = Instantiate(Resources.Load("Interface/TowerInterface"), transform.position, Quaternion.identity) as GameObject;
         towerInterface.GetComponent<TowerMenuController>().SetTower(this);
         towerInterface.transform.SetParent(transform);
-        towerInterface.name = "Interface";
+        towerInterface.name = "TowerMenuInterface";
+        GetComponent<CircleCollider2D>().enabled = false;
+        master.getChildFrom("zoneImg", this.gameObject).GetComponent<SpriteRenderer>().enabled = true;
     }
+
+    private void HideInterface(Vector3 position)
+    {
+        Transform towerInterface = transform.FindChild("TowerMenuInterface");
+        if (towerInterface != null)
+        {
+            Destroy(towerInterface.gameObject);
+            transform.FindChild("zoneImg").GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<CircleCollider2D>().enabled = true;
+        }
+    }
+
 
     protected virtual void OnUpdate() { }
 
@@ -104,16 +143,9 @@ public class TowerController : MonoBehaviour
     {
         if (!master.isFinish())
         {
-            if (master.getChildFrom("Interface", this.gameObject) == null)
+            if (Input.GetMouseButtonUp(0) && _mouseover == true)
             {
-                master.getChildFrom("zoneImg", this.gameObject).GetComponent<SpriteRenderer>().enabled = false;
-                GetComponent<CircleCollider2D>().enabled = true;
-            }
-            if (Input.GetMouseButtonDown(0) && _mouseover == true)
-            {
-                ShowInterface();
-                GetComponent<CircleCollider2D>().enabled = false;
-                master.getChildFrom("zoneImg", this.gameObject).GetComponent<SpriteRenderer>().enabled = true;
+                ShowInterface();     
             }
         }
         OnUpdate();
@@ -137,6 +169,15 @@ public class TowerController : MonoBehaviour
             _level++;
 
         GetComponent<SpriteRenderer>().sprite = _sprites[_level];
+        setDamage();
+        SetAttackSpeed();
+    }
+
+    public void Sell()
+    {
+        Master_Instance masterInstance = GameObject.Find("Master_Instance").GetComponent<Master_Instance>();
+        masterInstance.addMoney((int)(masterInstance.getPrice(gameObject) / 3) * 2);
+        master.sellTower(gameObject);
     }
 }
 

@@ -11,7 +11,6 @@ public class CannonTowerController : TowerController
 	private GameObject spawner=null;
 	private GameObject flag=null;
 	private GameObject zone=null;
-	private bool mouseover=false;
 
 	private bool inprocess=false;
 	private bool firstime=true;
@@ -23,21 +22,8 @@ public class CannonTowerController : TowerController
 
     [SerializeField]
     private string _unitPath = "Kt/Knight";
-    private const string _interface = "KT0";
 
     CannonController _cannonController;
-
-    void OnMouseOver()
-    { 
-		if(!GameObject.Find("hand")){master.showHand (true);}
-		mouseover=true;
-	}
-	
-	void OnMouseExit()
-    {
-		if(GameObject.Find("hand")){master.showHand (false);}
-		mouseover=false;
-	}
 
 	void OnTriggerEnter2D(Collider2D coll)
     {
@@ -65,23 +51,11 @@ public class CannonTowerController : TowerController
 		Init_();
 	}
 
-	void Update ()
+	protected override void OnUpdate ()
     {
+        base.OnUpdate();
 		if(!master.isFinish())
         {
-			if(_transform.FindChild("Interface") == null && !GameObject.Find("circle"))
-            {
-                _transform.FindChild("zoneImg").GetComponent<SpriteRenderer>().enabled = false;
-                GetComponent<CircleCollider2D>().enabled = true;
-			}
-
-			if (Input.GetMouseButtonDown(0) && mouseover == true)
-            {
-				master.showInterface(_interface,this.gameObject,zone.transform);
-				GetComponent<CircleCollider2D>().enabled=false;
-                _transform.FindChild("zoneImg").GetComponent<SpriteRenderer>().enabled=true;
-			}
-
 			if(inprocess == false)
             {
                 CannonCall();
@@ -174,7 +148,8 @@ public class CannonTowerController : TowerController
 		_cannonController.life=life;
 		_cannonController.shield = shield;
 		_cannonController.damage = Damage[_level];
-		cannon.name = "Cannon";
+        _cannonController.AttackDelay = 1f / AttackSpeed[_level];
+        cannon.name = "Cannon";
 	}
 
 	private IEnumerator setZ(GameObject go, float delayTime)
@@ -194,6 +169,14 @@ public class CannonTowerController : TowerController
         if (master.getChildFrom("Cannon", this.gameObject))
         {
             master.getChildFrom("Cannon", this.gameObject).GetComponent<CannonController>().damage = Damage[_level];
+        }
+    }
+
+    public override void SetAttackSpeed()
+    {
+        if (master.getChildFrom("Cannon", this.gameObject))
+        {
+            master.getChildFrom("Cannon", this.gameObject).GetComponent<CannonController>().AttackDelay = 1f / AttackSpeed[_level];
         }
     }
 
