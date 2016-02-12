@@ -6,19 +6,23 @@ public class Onclick_ : MonoBehaviour {
 	private Sprite aux;
 	private bool mouseover=false;
 	private Master_Instance master;
-	// Use this for initialization
+    // Use this for initialization
+
+    TowerController _towerController;
+
 	void Start () {
 		master = GameObject.Find("Master_Instance").GetComponent<Master_Instance>();
 		aux = GetComponent<SpriteRenderer>().sprite;
 		setLayer();
-	}
+        _towerController = transform.parent.parent.GetComponent<TowerController>();
+    }
 	void OnMouseOver(){ 
-		if(!GameObject.Find("hand")&&!GameObject.Find("circle")){showHand (true);}
+		//if(!GameObject.Find("hand")&&!GameObject.Find("circle")){showHand (true);}
 		mouseover=true;
 	}
 	
 	void OnMouseExit(){
-		if(GameObject.Find("hand")){showHand (false);}
+		//if(GameObject.Find("hand")){showHand (false);}
 		mouseover=false;
 	}
 
@@ -28,6 +32,8 @@ public class Onclick_ : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0)&&mouseover==true){
 			GetComponent<SpriteRenderer>().sprite = clicked;
 			master.anybuttonclicked=true;
+            _towerController.isFlag = true;
+            _towerController.Flag.SetActive(true);
 		}
 		if (Input.GetMouseButtonUp(0)&&GetComponent<SpriteRenderer>().sprite==clicked){
 			GetComponent<SpriteRenderer>().sprite = aux;
@@ -35,18 +41,20 @@ public class Onclick_ : MonoBehaviour {
 			showCircle();
 		}
 		if (Input.GetMouseButtonDown(0)&&mouseover==false){
-			Invoke ("mouseDownDelay",0.01f);
-		}
+            //Invoke ("mouseDownDelay",0.01f);
+            _towerController.isFlag = false;
+            //_towerController.Flag.SetActive(false);
+        }
 	}
 
 	void mouseDownDelay(){
-		if(master.anybuttonclicked==false){
-			if(!GameObject.Find("circle")){
-				getBrother("zoneImg").GetComponent<SpriteRenderer>().enabled=false;
-				this.gameObject.transform.parent.transform.parent.GetComponent<CircleCollider2D>().enabled=true;
-				Destroy (this.gameObject.transform.parent.gameObject);
-			}
-		}
+		//if(master.anybuttonclicked==false){
+		//	if(!GameObject.Find("circle")){
+		//		getBrother("zoneImg").GetComponent<SpriteRenderer>().enabled=false;
+		//		this.gameObject.transform.parent.transform.parent.GetComponent<CircleCollider2D>().enabled=true;
+		//		Destroy (this.gameObject.transform.parent.gameObject);
+		//	}
+		//}
 	}
 
 	void setLayer(){if(LayerMask.NameToLayer("interface")!=-1){this.gameObject.layer = LayerMask.NameToLayer("interface");}}

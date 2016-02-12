@@ -51,6 +51,8 @@ public class TowerController : MonoBehaviour
     [SerializeField]
     private List<Sprite> _sprites;
 
+    public bool isFlag = false;
+    public GameObject Flag = null;
 
     protected void Init<T>(ref List<T> _list)
     {
@@ -65,6 +67,8 @@ public class TowerController : MonoBehaviour
 
     private void Awake()
     {
+        if(transform.FindChild("flag"))
+            Flag = transform.FindChild("flag").gameObject;
         GetComponent<SpriteRenderer>().sprite = _sprites[_level];
     }
 
@@ -127,12 +131,15 @@ public class TowerController : MonoBehaviour
 
     private void HideInterface(Vector3 position)
     {
-        Transform towerInterface = transform.FindChild("TowerMenuInterface");
-        if (towerInterface != null)
+        if (!isFlag)
         {
-            Destroy(towerInterface.gameObject);
-            transform.FindChild("zoneImg").GetComponent<SpriteRenderer>().enabled = false;
-            GetComponent<CircleCollider2D>().enabled = true;
+            Transform towerInterface = transform.FindChild("TowerMenuInterface");
+            if (towerInterface != null)
+            {
+                Destroy(towerInterface.gameObject);
+                transform.FindChild("zoneImg").GetComponent<SpriteRenderer>().enabled = false;
+                GetComponent<CircleCollider2D>().enabled = true;
+            }
         }
     }
 

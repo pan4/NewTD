@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Slugterra.UI.Game.Camera;
 
 public class Circles : MonoBehaviour {
 	//public GameObject parent_=null;
@@ -11,6 +12,7 @@ public class Circles : MonoBehaviour {
 		}
 		setLayer();
 		zone = getBrother("zone");
+        FindObjectOfType<MapCamera>().enabled = false;
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
@@ -30,10 +32,18 @@ public class Circles : MonoBehaviour {
 	void Update () {
 		if (Input.GetMouseButtonUp(0)&&GetComponent<SpriteRenderer>().enabled==false){//Disable all interface and zone renderer
 			Disable_all();
-		}else{
-			if (Input.GetMouseButtonUp(0)&&GetComponent<SpriteRenderer>().enabled==true){
-				getBrother("flag").transform.position=new Vector3(this.gameObject.transform.parent.transform.position.x,this.gameObject.transform.parent.transform.position.y,this.gameObject.transform.parent.transform.position.y+2f);
-				Disable_all();
+		}else
+        {
+            if (Input.GetMouseButtonDown(0) && GetComponent<SpriteRenderer>().enabled == true)
+            {
+                getBrother("flag").transform.position = 
+                    new Vector3(this.gameObject.transform.parent.transform.position.x, this.gameObject.transform.parent.transform.position.y, this.gameObject.transform.parent.transform.position.y + 2f);
+            }
+            if (Input.GetMouseButtonUp(0)&&GetComponent<SpriteRenderer>().enabled==true)
+            {
+                getBrother("flag").transform.position =
+                    new Vector3(this.gameObject.transform.parent.transform.position.x, this.gameObject.transform.parent.transform.position.y, this.gameObject.transform.parent.transform.position.y + 2f);
+                Disable_all();
 			}
 		}
 		if(Camera.main){
@@ -52,7 +62,8 @@ public class Circles : MonoBehaviour {
 		getBrother("zoneImg").GetComponent<SpriteRenderer>().enabled=false;
 		Cursor.visible = true;
 		Destroy (this.gameObject.transform.parent.gameObject);
-	}
+        ktproperties.Flag.SetActive(false);
+    }
 
 	private GameObject getBrother(string name){
 		GameObject aux = null;
@@ -62,4 +73,9 @@ public class Circles : MonoBehaviour {
 		return aux;
 	}
 	void setLayer(){if(LayerMask.NameToLayer("circle")!=-1){this.gameObject.layer = LayerMask.NameToLayer("circle");}}
+
+    private void OnDestroy()
+    {
+        FindObjectOfType<MapCamera>().enabled = true;
+    }
 }

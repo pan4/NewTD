@@ -11,7 +11,7 @@ public class KT_Controller : TowerController {
 	//--Private
 	private float instancetime = 11f;//######################### get
 	private GameObject spawner=null;
-	private GameObject flag=null;
+	//public GameObject flag=null;
 	private GameObject zone=null;
 	//--About door
 	private bool inprocess=false;
@@ -35,7 +35,7 @@ public class KT_Controller : TowerController {
 	private void Init_()
     {
 		spawner = master.getChildFrom("spawner",this.gameObject);
-		flag = master.getChildFrom("flag",this.gameObject);
+		//flag = master.getChildFrom("flag",this.gameObject);
 		zone = master.getChildFrom("zone",this.gameObject);
 	}
 	void Start () {
@@ -150,7 +150,7 @@ public class KT_Controller : TowerController {
 	}
 
 	public override void Reset(){
-		master.getChildFrom("TargetedZone",this.gameObject).transform.position = flag.transform.position;
+		master.getChildFrom("TargetedZone",this.gameObject).transform.position = Flag.transform.position;
 		if(EnemiesInZone.Count>0){
 			for(int i=0; i< EnemiesInZone.Count ;i++){
 				PathFollower enemyProperties = EnemiesInZone[i].GetComponent<PathFollower>();
@@ -225,7 +225,7 @@ public class KT_Controller : TowerController {
 		GameObject Knight = Instantiate(Resources.Load(_unitPath), new Vector3(spawner.transform.position.x,spawner.transform.position.y,spawner.transform.position.y), Quaternion.identity)as GameObject;
 		Knight.transform.SetParent(this.gameObject.transform);
 		Knights_Controller KnightProperties = Knight.GetComponent<Knights_Controller>();
-		KnightProperties.flag=flag;
+		KnightProperties.flag=Flag;
 		KnightProperties.life=life;
 		KnightProperties.shield = shield;
 		KnightProperties.damage = Damage[_level];

@@ -9,7 +9,7 @@ public class CannonTowerController : TowerController
 	private float instancetime = 11f;
 
 	private GameObject spawner=null;
-	private GameObject flag=null;
+	//public GameObject flag=null;
 	private GameObject zone=null;
 
 	private bool inprocess=false;
@@ -36,7 +36,7 @@ public class CannonTowerController : TowerController
 	private void Init_()
     {
 		spawner = master.getChildFrom("spawner",this.gameObject);
-		flag = master.getChildFrom("flag",this.gameObject);
+		//flag = master.getChildFrom("flag",this.gameObject);
 		zone = master.getChildFrom("zone",this.gameObject);
 	}
 
@@ -144,7 +144,7 @@ public class CannonTowerController : TowerController
 		GameObject cannon = Instantiate(Resources.Load(_unitPath), spawner.transform.position, Quaternion.identity)as GameObject;
 		cannon.transform.SetParent(this.gameObject.transform);
 		_cannonController = cannon.GetComponent<CannonController>();
-		_cannonController.flag=flag;
+		_cannonController.flag=Flag;
 		_cannonController.life=life;
 		_cannonController.shield = shield;
 		_cannonController.damage = Damage[_level];
@@ -193,7 +193,7 @@ public class CannonTowerController : TowerController
 
     public override void Reset()
     {
-        master.getChildFrom("TargetedZone", this.gameObject).transform.position = flag.transform.position;
+        master.getChildFrom("TargetedZone", this.gameObject).transform.position = Flag.transform.position;
         if (EnemiesInZone.Count > 0)
         {
             for (int i = 0; i < EnemiesInZone.Count; i++)

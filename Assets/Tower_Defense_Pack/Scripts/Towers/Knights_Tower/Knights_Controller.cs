@@ -29,7 +29,11 @@ public class Knights_Controller : DefenderController
 	private Vector3 auxbar = new Vector3 (0,0,0);
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        Vector3 pos = transform.position;
+        pos.z += 5f;
+        transform.position = pos;
 		Init();
         _animator = GetComponent<Animator>();
     }
@@ -52,7 +56,7 @@ public class Knights_Controller : DefenderController
 	void Update () {
 		if(!master.isFinish()){
 
-            this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y);
+            this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y + 5f);
 			//if(shield==true){_animator.SetLayerWeight(1, 1);}
 			if (_animator.GetCurrentAnimatorStateInfo (0).IsName ("Attack")) {_animator.SetBool ("attack", false);}
 			if(life!=0&&auxlife==0){getPoint();}
