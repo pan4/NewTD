@@ -21,6 +21,9 @@ public class EnemyController : MonoBehaviour {
 	void Start ()
     {
 		this.gameObject.tag="Respawn";
+        //Vector3 pos = transform.position;
+        //pos.z = 5f;
+        //transform.position = pos;
 		Init();
 	}
 

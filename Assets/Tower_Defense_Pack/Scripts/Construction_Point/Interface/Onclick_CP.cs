@@ -59,7 +59,8 @@ public class Onclick_CP : MonoBehaviour {
 	void Instantiate_Tower(){
 		Vector3 cpos = parent_.transform.position;
 		cpos.y = cpos.y - 0.1f;
-		GameObject Tower = Instantiate(Resources.Load(this.gameObject.name + "/" + this.gameObject.name + "0"), cpos, Quaternion.identity)as GameObject;
+        cpos.z = 10f;
+        GameObject Tower = Instantiate(Resources.Load(this.gameObject.name + "/" + this.gameObject.name + "0"), cpos, Quaternion.identity)as GameObject;
 		Tower.name = this.gameObject.name + 0;
 	}
 
@@ -87,7 +88,8 @@ public class Onclick_CP : MonoBehaviour {
 		this.gameObject.transform.parent.gameObject.GetComponent<SpriteRenderer>().enabled=false;
 	}
 
-	private void onDestroy(){
+	private void onDestroy()
+    {
 		Instantiate_Tower();
 		Destroy (parent_);
 		Destroy (this.gameObject.transform.parent.gameObject);
