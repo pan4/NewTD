@@ -8,21 +8,21 @@ public class CannonBallController : MonoBehaviour {
     public float Damage = 1;
 
     private Transform _transform;
-    private Vector3 _direction;
+   // private Vector3 _direction;
 
 	void Start ()
     {
         _transform = transform;
-        if(Target != null)
-            _direction = (Target.position - _transform.position).normalized * 20f;
+       // if(Target != null)
+           // _direction = (Target.position - _transform.position).normalized * 6f;
     }
 	
 
 	void Update ()
     {
         if (Target != null)
-            //transform.position = Vector3.MoveTowards(_transform.position, Target.position, Time.deltaTime * 20);
-            _transform.Translate(_direction * Time.deltaTime, Space.World);
+            transform.position = Vector3.MoveTowards(_transform.position, Target.position, Time.deltaTime * 6f);
+            //_transform.Translate(_direction * Time.deltaTime, Space.World);
         else
             Destroy(gameObject);
     }

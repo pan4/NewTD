@@ -56,7 +56,7 @@ public class Knights_Controller : DefenderController
 	void Update () {
 		if(!master.isFinish()){
 
-            this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y + 5f);
+            this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y);
 			//if(shield==true){_animator.SetLayerWeight(1, 1);}
 			if (_animator.GetCurrentAnimatorStateInfo (0).IsName ("Attack")) {_animator.SetBool ("attack", false);}
 			if(life!=0&&auxlife==0){getPoint();}
@@ -71,7 +71,7 @@ public class Knights_Controller : DefenderController
 						//needFlip(customPos);
                         SetDirectin(customPos, "walk");
                         transform.position = Vector2.MoveTowards(patchPos, patchCustomPos, Time.deltaTime/3);
-						this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y + 5f);
+						this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y);
 					}else{
 						_animator.SetBool ("walk", false);
 					}

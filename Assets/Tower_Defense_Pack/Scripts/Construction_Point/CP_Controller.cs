@@ -18,7 +18,7 @@ public class CP_Controller : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-		this.transform.position = master.setThisZ(this.transform.position,5.02f);
+		this.transform.position = master.setThisZ(this.transform.position,0.2f);
 		this.gameObject.name="CP";
 		master.setLayer("interface",this.gameObject);
 	}

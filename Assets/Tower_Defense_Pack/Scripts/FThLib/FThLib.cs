@@ -7,7 +7,7 @@ namespace FThLib {
 		//###################################[Public Lib Section]###################################
 		public static void Instantiate_Progressbar(float time_, GameObject parent_){
 			Vector3 barposition = parent_.transform.position + Vector3.up * 0.5f;
-			barposition.z = 5f;
+			barposition.z = barposition.y - 3f; 
 			GameObject Pb = Instantiate(Resources.Load("Buttons/ProgressBar"), barposition, Quaternion.identity)as GameObject;
 			Pb.name="ProgressBar";
 			GameObject bar = getChildFrom("bar",Pb);

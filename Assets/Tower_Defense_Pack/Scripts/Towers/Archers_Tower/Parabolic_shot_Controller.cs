@@ -24,10 +24,14 @@ public class Parabolic_shot_Controller : MonoBehaviour {
         }
     }
 
+    BoxCollider2D _collider;
+
     void Start ()
     {
 		sw=true;
 		master.setLayer("tower",this.gameObject);
+        _collider = GetComponent<BoxCollider2D>();
+        _collider.enabled = false;
 	}
 	
 	void OnTriggerEnter2D(Collider2D collider)
@@ -67,7 +71,12 @@ public class Parabolic_shot_Controller : MonoBehaviour {
 					if (fire==true){CreateFire();}
 					if(GetComponent<Rigidbody2D>().isKinematic==false){simulateRotation();}
 					transform.position = Vector2.MoveTowards(transform.position, target.transform.position, Time.deltaTime/accuracy_mode);
-					if(GetComponent<Rigidbody2D>().velocity.y<0){isFalling();}
+					if(GetComponent<Rigidbody2D>().velocity.y<0)
+                    {
+                        isFalling();
+                        if (!_collider.enabled)
+                            _collider.enabled = true;
+                    }
 					this.transform.position = master.setThisZ(this.transform.position,-0.7f);
 				}
 			}

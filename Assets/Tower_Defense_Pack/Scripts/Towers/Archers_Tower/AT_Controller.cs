@@ -22,7 +22,7 @@ public class AT_Controller : TowerController
     private Animator _archerAnimator2;
 
 	void Start () {
-		//this.transform.position = master.setThisZ(this.transform.position,0.02f);
+		this.transform.position = master.setThisZ(this.transform.position,0.02f);
 		spawner = master.getChildFrom("spawner",this.gameObject);
 		zone = master.getChildFrom("zone",this.gameObject);
 		master.setLayer("tower",this.gameObject);

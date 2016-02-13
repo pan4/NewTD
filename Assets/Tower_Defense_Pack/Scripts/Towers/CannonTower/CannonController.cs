@@ -124,7 +124,7 @@ public class CannonController : DefenderController
                 else
                 {
                     move = false;
-                    Attack = false;
+                    //Attack = false;
 
                     if (life < auxlife && healing == false)
                     {

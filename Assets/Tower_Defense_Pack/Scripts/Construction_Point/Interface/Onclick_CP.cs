@@ -59,7 +59,6 @@ public class Onclick_CP : MonoBehaviour {
 	void Instantiate_Tower(){
 		Vector3 cpos = parent_.transform.position;
 		cpos.y = cpos.y - 0.1f;
-        cpos.z = 10f;
         GameObject Tower = Instantiate(Resources.Load(this.gameObject.name + "/" + this.gameObject.name + "0"), cpos, Quaternion.identity)as GameObject;
 		Tower.name = this.gameObject.name + 0;
 	}
