@@ -71,7 +71,7 @@ public class Knights_Controller : DefenderController
 						//needFlip(customPos);
                         SetDirectin(customPos, "walk");
                         transform.position = Vector2.MoveTowards(patchPos, patchCustomPos, Time.deltaTime/3);
-						this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y);
+						this.transform.position=new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.y + 5f);
 					}else{
 						_animator.SetBool ("walk", false);
 					}

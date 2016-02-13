@@ -87,7 +87,7 @@ public class PathFollower : MonoBehaviour
 
                 Vector2 pos = new Vector2(_transform.position.x, _transform.position.y);
                 Vector2 moveTargetPos = new Vector2(_moveTarget.position.x, _moveTarget.position.y);
-                _transform.position = new Vector3(_transform.position.x, _transform.position.y, _transform.position.y + 5f);
+                _transform.position = new Vector3(_transform.position.x, _transform.position.y, _transform.position.y);
                 if (pos == moveTargetPos && target == null)
                 {
                     if (path[currentPoint].gameObject.name == "End")
