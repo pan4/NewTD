@@ -36,7 +36,7 @@ namespace Slugterra.UI.Game.Camera
 		private float _zoom;
 
 		[SerializeField]
-		private Vector4 _bounds = new Vector4(-8f, 1f, 18f, 7f);
+		private Vector4 _currentBounds = new Vector4(-8f, 1f, 18f, 7f);
 
 		private bool isLocked = false;
 
@@ -46,10 +46,18 @@ namespace Slugterra.UI.Game.Camera
         private float _pixelToUnitX;
         private float _pixelToUnitY;
 
+        private SpriteRenderer _mapRenderer;
+        private Bounds _bounds;
+
         private void Start()
 		{
 			_cameraTransform = transform;
-			_cameraTransform.position = new Vector3(0, 0, -10);
+
+            _mapRenderer = GameObject.Find("BaseMap").GetComponent<SpriteRenderer>();
+            _bounds = _mapRenderer.sprite.bounds;
+            _bounds.center = _mapRenderer.transform.position;
+
+            _cameraTransform.position = new Vector3(_mapRenderer.transform.position.x, _mapRenderer.transform.position.y, -10);
 
 			_basePosition = _cameraTransform.position;
 
@@ -65,14 +73,17 @@ namespace Slugterra.UI.Game.Camera
 
             _pixelToUnitX = _widthSize * 2 / (float)Screen.width;
             _pixelToUnitY = _camera.orthographicSize * 2 / (float)Screen.height;
+
+
         }
 
         private void SetBounds(float hightSize)
-        {
+        {            
             _widthSize = hightSize * _windowaspect;
-            float borderX = (10.4f - _widthSize * 2) / 2;
-            float borderY = (8.8f - _camera.orthographicSize * 2) / 2;
-            _bounds = new Vector4(-borderX, -borderY, borderX, borderY);
+            float borderX = (_bounds.size.x - _widthSize * 2 ) / 2 ;
+            float borderY = (_bounds.size.y - _camera.orthographicSize * 2) / 2 + _bounds.center.y;
+            _currentBounds = new Vector4(_bounds.center.x - borderX, _bounds.center.y - borderY,
+                                         _bounds.center.x + borderX, _bounds.center.y + borderY);
         }
 
 		private void OnEnable()
@@ -146,18 +157,18 @@ namespace Slugterra.UI.Game.Camera
 
 		private Vector3 _velocity;
 
-		private void LateUpdate()
-		{
-			if (isLocked)
-				return;
+        private void LateUpdate()
+        {
+            if (isLocked)
+                return;
 
-			Vector3 cameraTarget = _basePosition + _offset;
+            Vector3 cameraTarget = _basePosition + _offset;
 
-            float x = Mathf.Clamp(_cameraTransform.position.x, _bounds.x, _bounds.z);
-            float y = Mathf.Clamp(_cameraTransform.position.y, _bounds.y, _bounds.w);
+            float x = Mathf.Clamp(_cameraTransform.position.x, _currentBounds.x, _currentBounds.z);
+            float y = Mathf.Clamp(_cameraTransform.position.y, _currentBounds.y, _currentBounds.w);
 
-            cameraTarget.x = Mathf.Clamp(cameraTarget.x, _bounds.x, _bounds.z);
-            cameraTarget.y = Mathf.Clamp(cameraTarget.y, _bounds.y, _bounds.w);
+            cameraTarget.x = Mathf.Clamp(cameraTarget.x, _currentBounds.x, _currentBounds.z);
+            cameraTarget.y = Mathf.Clamp(cameraTarget.y, _currentBounds.y, _currentBounds.w);
 
             float newPositionX;
             float newPositionY;
@@ -173,7 +184,7 @@ namespace Slugterra.UI.Game.Camera
                 newPositionY = Mathf.SmoothDamp(_cameraTransform.position.y, y, ref _velocity.y, 0.01f);
             }
 
-			_cameraTransform.position = new Vector3(newPositionX, newPositionY, -10f);
+            _cameraTransform.position = new Vector3(newPositionX, newPositionY, -10f);
 
             float velocity = 0;
             float newOrthographicSize = Mathf.SmoothDamp(_camera.orthographicSize, _zoom, ref velocity, 0.2f);
@@ -183,7 +194,7 @@ namespace Slugterra.UI.Game.Camera
 #if UNITY_EDITOR
             #region Wheel mouse zoom
 
-            if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetAxis("Mouse ScrollWheel") < 0) 
+            if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetAxis("Mouse ScrollWheel") < 0)
             {
                 if (Input.GetAxis("Mouse ScrollWheel") > 0)
                     _zoom += 10 * Time.deltaTime;
@@ -195,10 +206,10 @@ namespace Slugterra.UI.Game.Camera
                 _offset = Vector3.zero;
                 _prevMovePos = Vector3.zero;
 
-            }   
+            }
 
             #endregion
 #endif
         }
-	}
+    }
 }

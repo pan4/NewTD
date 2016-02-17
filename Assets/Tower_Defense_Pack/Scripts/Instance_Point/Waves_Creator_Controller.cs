@@ -30,9 +30,25 @@ public class Waves_Creator_Controller : MonoBehaviour
     private bool _ememySpawnFlag;
     private int _delayIndex = 0;
 
+    void Awake()
+    {
+        _movePathRoot = transform.FindChild("MovePath");
+        int pathSize = GetPathSize(_movePathRoot);
+        Transform tr;
+        int i = 1;
+        do
+        {
+            tr = _movePathRoot.FindChild(string.Format("a0 ({0})", i));
+            if (tr)
+                tr.gameObject.name = "a" + i;
+            i++;
+        }
+        while (tr != null);
+    }
+
     void Start ()
     {
-		_masterInstance = GameObject.Find("Master_Instance").GetComponent<Master_Instance>();
+		_masterInstance = FindObjectOfType<Master_Instance>();
 		waves = GameObject.Find("Waves").GetComponent<Text>();
 		waves.text = wavesIndex + "/" + enemiesInWaves.Length;
         _movePathRoot = transform.FindChild("MovePath");
