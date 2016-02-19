@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour {
 
 	private void Init()
     {
-		masterPoint = GameObject.Find("Master_Instance").GetComponent<Master_Instance>();
+		masterPoint = FindObjectOfType<Master_Instance>();
 		master.setLayer("enemies",this.gameObject);
 		lifebar = master.getChildFrom("Lifebar",this.gameObject);
 		getPoint();
